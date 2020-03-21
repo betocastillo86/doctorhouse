@@ -1,7 +1,12 @@
 # DoctorHouse API
 
-Find a place to stay while coronavirus ends
+Find a place to stay while coronavirus ends for medical staff
 
+![image](https://user-images.githubusercontent.com/8453022/77238526-b857fb80-6b9e-11ea-8411-2c1bd7f0631f.png)
+
+You can see the mockups here:
+
+https://xd.adobe.com/view/90541b33-88f5-400d-6dd8-b676b5f9495e-e665/
 
 # Getting started
 
