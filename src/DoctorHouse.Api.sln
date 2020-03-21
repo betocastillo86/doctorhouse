@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Beto.Core.Web", "..\ext\bet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorHouse.Data", "DoctorHouse.Data\DoctorHouse.Data.csproj", "{69DB9868-6B57-4004-9AF7-E901FB880212}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorHouse.Business", "DoctorHouse.Business\DoctorHouse.Business.csproj", "{96DC815D-8768-4D30-ABF7-F8DFC90B2989}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{69DB9868-6B57-4004-9AF7-E901FB880212}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69DB9868-6B57-4004-9AF7-E901FB880212}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69DB9868-6B57-4004-9AF7-E901FB880212}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96DC815D-8768-4D30-ABF7-F8DFC90B2989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96DC815D-8768-4D30-ABF7-F8DFC90B2989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96DC815D-8768-4D30-ABF7-F8DFC90B2989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96DC815D-8768-4D30-ABF7-F8DFC90B2989}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

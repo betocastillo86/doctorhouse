@@ -27,6 +27,12 @@ namespace DoctorHouse.Data
 
         public string Salt { get; set; }
 
+        public string PhoneNumber { get; set; }
+
+        public string JobPlace { get; set; }
+
+        public string JobAddress { get; set; }
+
         public bool Deleted { get; set; }
 
         public virtual Location Location { get; set; }

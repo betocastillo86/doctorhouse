@@ -4,14 +4,16 @@ using DoctorHouse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DoctorHouse.Data.Migrations
 {
     [DbContext(typeof(DoctorHouseContext))]
-    partial class DoctorHouseContextModelSnapshot : ModelSnapshot
+    [Migration("20200321182602_AddColumn_JobData_Table_User")]
+    partial class AddColumn_JobData_Table_User
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

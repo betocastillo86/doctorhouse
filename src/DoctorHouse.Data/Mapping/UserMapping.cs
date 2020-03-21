@@ -24,8 +24,16 @@ namespace DoctorHouse.Data.Mapping
                 .HasMaxLength(6);
 
             builder.Property(c => c.PasswordRecoveryToken)
-                .IsRequired()
                 .HasMaxLength(10);
+
+            builder.Property(c => c.JobPlace)
+                .HasMaxLength(100);
+
+            builder.Property(c => c.JobAddress)
+                .HasMaxLength(100);
+
+            builder.Property(c => c.PhoneNumber)
+                .HasMaxLength(15);
 
             builder.HasOne(c => c.Location)
                .WithMany()
