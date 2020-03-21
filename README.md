@@ -25,12 +25,25 @@ Run the application and go to Swagger UI where you will find the different endpo
 
 In order to authenticate you can generate a token with this cURL:
 
-`curl --location --request POST 'https://localhost:44370/api/v1/auth' \
+```
+curl --location --request POST 'https://localhost:44370/api/v1/auth' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'username=test@test.com' \
 --data-urlencode 'password=123456' \
---data-urlencode 'grant_type=password'`
+--data-urlencode 'grant_type=password'
+```
 
-Copy the 'access_token' property and add it to the Swagger authentication.
+Copy the `access_token` property and add it to the Swagger authentication
 
+![image](https://user-images.githubusercontent.com/8453022/77238271-be4cdd00-6b9c-11ea-935b-de907c59c3d7.png)
 
+# Endpoints
+
+This is the list of endpoints:
+
+- ✔️ Users
+- ❌ Places
+- ❌ Requests
+- ❌ Guests
+
+![image](https://user-images.githubusercontent.com/8453022/77238367-4b903180-6b9d-11ea-8a9a-fc85c4b37476.png)
