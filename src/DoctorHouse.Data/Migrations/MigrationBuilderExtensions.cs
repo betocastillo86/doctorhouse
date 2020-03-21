@@ -21,5 +21,39 @@ namespace DoctorHouse.Data.Migrations
                     false
                });
         }
+
+        public static void InsertUser(this MigrationBuilder migrationBuilder, User entity)
+        {
+            migrationBuilder.InsertData(
+               "Users",
+               new string[]
+               {
+                    "Name",
+                    "Email",
+                    "LocationId",
+                    "CreationDate",
+                    "Password",
+                    "PasswordRecoveryToken",
+                    "Salt",
+                    "Deleted",
+                    "JobAddress",
+                    "JobPlace",
+                    "PhoneNumber"
+               },
+               new object[]
+               {
+                    entity.Name,
+                    entity.Email,
+                    entity.LocationId,
+                    entity.CreationDate,
+                    entity.Password,
+                    entity.PasswordRecoveryToken,
+                    entity.Salt,
+                    entity.Deleted,
+                    entity.JobAddress,
+                    entity.JobPlace,
+                    entity.PhoneNumber
+               });
+        }
     }
 }
