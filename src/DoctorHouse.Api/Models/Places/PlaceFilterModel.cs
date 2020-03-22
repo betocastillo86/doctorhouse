@@ -9,8 +9,10 @@ namespace DoctorHouse.Api.Models
             this.MaxPageSize = 100;
         }
 
-        public int? LocationId { get; set; }
+        public int LocationId { get; set; }
 
-        public bool CountGuests { get; set; }
+        public byte? CountGuests { get; set; }
+
+
     }
 }

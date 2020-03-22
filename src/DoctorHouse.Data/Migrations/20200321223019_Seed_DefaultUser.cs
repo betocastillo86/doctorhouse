@@ -17,6 +17,21 @@ namespace DoctorHouse.Data.Migrations
                     Salt = "F}S2¡7",
                     LocationId = 1
                 });
+
+            migrationBuilder.InsertPlace(
+                new Place
+                {
+                    Description = "the place",
+                    CreationDate = DateTime.UtcNow,
+                    AvailableFrom = DateTime.UtcNow,
+                    AvailableTo = DateTime.UtcNow,
+                    GuestAllowed = 2,
+                    Phone = "366666",
+                    Address = "Cr 10 10 10",
+                    LocationId = 1,
+                    UserId = 1,
+                    Active = true
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Beto.Core.Data;
 
 namespace DoctorHouse.Data
 {
-    public class Place
+    public class Place : IEntity
     {
         public int Id { get; set; }
 
@@ -46,6 +47,10 @@ namespace DoctorHouse.Data
 
         public bool EntireHouse { get; set; }
 
+        public int LocationId { get; set; }
+
         public virtual User User { get; set; }
+
+        public virtual Location Location { get; set; }
     }
 }

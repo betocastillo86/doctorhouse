@@ -18,6 +18,11 @@ namespace DoctorHouse.Data.Mapping
             builder.Property(c => c.Description)
                 .IsRequired();
 
+            builder.HasOne(c => c.Location)
+               .WithMany()
+               .HasForeignKey(c => c.LocationId)
+               .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(c => c.User)
                .WithMany()
                .HasForeignKey(c => c.UserId)

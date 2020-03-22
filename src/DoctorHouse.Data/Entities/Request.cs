@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Beto.Core.Data;
 
 namespace DoctorHouse.Data
 {
-    public class Request
+    public class Request : IEntity
     {
         public int Id { get; set; }
 
