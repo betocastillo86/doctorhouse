@@ -13,7 +13,7 @@ namespace DoctorHouse.Data.Migrations
                     Name = "Test user",
                     Email = "test@test.com",
                     CreationDate = DateTime.UtcNow,
-                    Password = "e094197e3d13812df0217d40017eb7643af38be6", //123456
+                    Password = "e173460b741d297359e92a12bf8edcb14439a247", //123456
                     Salt = "F}S2¡7",
                     LocationId = 1
                 });

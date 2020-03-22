@@ -46,9 +46,23 @@ Copy the `access_token` property and add it to the Swagger authentication
 
 This is the list of endpoints:
 
-- ✔️ Users
-- ❌ Places
-- ❌ Requests
-- ❌ Guests
+- Users
+   - ✔️ Authentication
+   - ✔️ GET by ID
+   - ✔️ POST
+   - ✔️ PUT
+- Places
+   - ✔️ GET
+   - ❌ GET by ID
+   - ❌ POST
+   - ❌ PUT
+- Requests
+   - ❌ GET
+   - ❌ GET by ID
+   - ❌ POST
+   - ❌ PUT
+- Guests
+   - ❌ GET
+   - ❌ PUT
 
 ![image](https://user-images.githubusercontent.com/8453022/77238367-4b903180-6b9d-11ea-8a9a-fc85c4b37476.png)

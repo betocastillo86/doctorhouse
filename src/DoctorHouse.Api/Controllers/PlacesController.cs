@@ -40,7 +40,7 @@ namespace DoctorHouse.Api.Controllers
 
             var models = this.mapper.Map<IList<PlaceModel>>(places);
 
-            return this.Ok(models, true, 10);
+            return this.Ok(models, places.HasNextPage, places.TotalCount);
         }
 
         [Authorize]
