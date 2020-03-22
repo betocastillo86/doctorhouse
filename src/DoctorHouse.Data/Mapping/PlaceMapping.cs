@@ -7,6 +7,12 @@ namespace DoctorHouse.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Place> builder)
         {
+            builder.Property(c => c.Latitude)
+                .HasColumnType("decimal");
+
+            builder.Property(c => c.Longitude)
+                .HasColumnType("decimal");
+
             builder.Property(c => c.Address)
                 .IsRequired()
                 .HasMaxLength(80);

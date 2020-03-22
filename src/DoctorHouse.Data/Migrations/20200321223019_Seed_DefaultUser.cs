@@ -25,7 +25,7 @@ namespace DoctorHouse.Data.Migrations
                     CreationDate = DateTime.UtcNow,
                     AvailableFrom = DateTime.UtcNow,
                     AvailableTo = DateTime.UtcNow,
-                    GuestAllowed = 2,
+                    GuestsAllowed = 2,
                     Phone = "366666",
                     Address = "Cr 10 10 10",
                     LocationId = 1,

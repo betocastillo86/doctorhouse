@@ -4,14 +4,16 @@ using DoctorHouse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DoctorHouse.Data.Migrations
 {
     [DbContext(typeof(DoctorHouseContext))]
-    partial class DoctorHouseContextModelSnapshot : ModelSnapshot
+    [Migration("20200322171403_AlterColumn_Latitude_Longitude_Table_Place")]
+    partial class AlterColumn_Latitude_Longitude_Table_Place
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -84,11 +84,11 @@ namespace DoctorHouse.Data.Migrations
                new object[]
                {
                     entity.Latitude,
-                    entity.Logitude,
+                    entity.Longitude,
                     entity.Address,
                     entity.Phone,
                     entity.Description,
-                    entity.GuestAllowed,
+                    entity.GuestsAllowed,
                     entity.Bathroom,
                     entity.Food,
                     entity.Kitchen,

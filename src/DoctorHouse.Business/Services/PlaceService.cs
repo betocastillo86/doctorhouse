@@ -2,7 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Beto.Core.Data;
+using DoctorHouse.Business.Exceptions;
 using DoctorHouse.Data;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoctorHouse.Business.Services
 {
@@ -36,7 +39,7 @@ namespace DoctorHouse.Business.Services
 
             if (guestsAllowed.HasValue)
             {
-                query = query.Where(c => c.GuestAllowed <= guestsAllowed);
+                query = query.Where(c => c.GuestsAllowed <= guestsAllowed);
             }
 
             if (locationId.HasValue)
@@ -72,9 +75,40 @@ namespace DoctorHouse.Business.Services
             return this.placeRepository.TableNoTracking.FirstOrDefault(c => c.Id == id && !c.Deleted);
         }
 
-        public Task InsertAsync(Place place)
+        public async Task InsertAsync(Place place)
         {
-            throw new NotImplementedException();
+            try
+            {
+                place.CreationDate = DateTime.UtcNow;
+                await this.placeRepository.InsertAsync(place);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is SqlException)
+                {
+                    var sqlex = (SqlException)e.InnerException;
+
+                    if (sqlex.Number == 547)
+                    {
+                        var target = e.ToString();
+
+                        if (sqlex.Message.IndexOf("FK_Places_Locations") != -1)
+                        {
+                            target = "Locations";
+                        }
+
+                        throw new DoctorHouseException(target, DoctorHouseExceptionCode.InvalidForeignKey);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
         public Task UpdateAsync(Place place)

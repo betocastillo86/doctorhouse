@@ -11,9 +11,9 @@ namespace DoctorHouse.Data
     {
         public int Id { get; set; }
 
-        public long Latitude { get; set; }
+        public decimal Latitude { get; set; }
 
-        public long Logitude { get; set; }
+        public decimal Longitude { get; set; }
 
         public string Address { get; set; }
 
@@ -21,7 +21,7 @@ namespace DoctorHouse.Data
 
         public string Description { get; set; }
 
-        public byte GuestAllowed { get; set; }
+        public byte GuestsAllowed { get; set; }
 
         public bool Bathroom { get; set; }
 
@@ -33,9 +33,9 @@ namespace DoctorHouse.Data
 
         public int UserId { get; set; }
 
-        public DateTime AvailableFrom { get; set; }
+        public DateTime? AvailableFrom { get; set; }
 
-        public DateTime AvailableTo { get; set; }
+        public DateTime? AvailableTo { get; set; }
 
         public bool Active { get; set; }
 

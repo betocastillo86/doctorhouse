@@ -6,9 +6,9 @@ namespace DoctorHouse.Api.Models
     {
         public int Id { get; set; }
 
-        public long Latitude { get; set; }
+        public decimal? Latitude { get; set; }
 
-        public long Logitude { get; set; }
+        public decimal? Longitude { get; set; }
 
         public string Address { get; set; }
 
@@ -16,7 +16,7 @@ namespace DoctorHouse.Api.Models
 
         public string Description { get; set; }
 
-        public byte GuestAllowed { get; set; }
+        public byte? GuestAllowed { get; set; }
 
         public bool Bathroom { get; set; }
 
@@ -39,5 +39,7 @@ namespace DoctorHouse.Api.Models
         public bool EntireHouse { get; set; }
 
         public UserModel User { get; set; }
+
+        public LocationModel Location { get; set; }
     }
 }
