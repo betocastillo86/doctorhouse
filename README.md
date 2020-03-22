@@ -56,11 +56,13 @@ This is the list of endpoints:
    - ❌ GET by ID
    - ❌ POST
    - ❌ PUT
+   - ❌ DELETE
 - Requests
    - ❌ GET
    - ❌ GET by ID
    - ❌ POST
    - ❌ PUT
+   - ❌ DELETE
 - Guests
    - ❌ GET
    - ❌ PUT

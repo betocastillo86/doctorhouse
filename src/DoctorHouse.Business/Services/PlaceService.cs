@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Beto.Core.Data;
 using DoctorHouse.Data;
 
@@ -64,6 +65,21 @@ namespace DoctorHouse.Business.Services
             }
 
             return new PagedList<Place>(query, page, pageSize);
+        }
+
+        public Place GetById(int id)
+        {
+            return this.placeRepository.TableNoTracking.FirstOrDefault(c => c.Id == id && !c.Deleted);
+        }
+
+        public Task InsertAsync(Place place)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Place place)
+        {
+            throw new NotImplementedException();
         }
     }
 }

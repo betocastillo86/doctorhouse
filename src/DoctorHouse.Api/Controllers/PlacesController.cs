@@ -48,31 +48,16 @@ namespace DoctorHouse.Api.Controllers
         [Route("{id:int}", Name = "GetPlaceById")]
         public IActionResult Get(int id)
         {
-            var models = new List<PlaceModel>()
-            {
-                new PlaceModel
-                {
-                    Active = true,
-                    Address = "address",
-                    AvailableFrom = DateTime.UtcNow,
-                    AvailableTo = DateTime.UtcNow,
-                    Bathroom = true,
-                    CreationDate = DateTime.UtcNow,
-                    Description = "description",
-                    EntireHouse = false,
-                    Food = false,
-                    GuestAllowed = 2,
-                    Internet = true,
-                    Kitchen = true,
-                    Latitude = 1,
-                    Logitude = 1,
-                    Parking = false,
-                    User = new UserModel{ Name = "the user" },
-                    Phone = "423423"
-                }
-            };
+            var place = this.placeService.GetById(id);
 
-            return this.Ok(models, false, 10);
+            if (place == null)
+            {
+                return this.NotFound();
+            }
+
+            var model = this.mapper.Map<PlaceModel>(place);
+
+            return this.Ok(model);
         }
 
         [Authorize]

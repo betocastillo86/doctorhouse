@@ -28,7 +28,10 @@ namespace DoctorHouse.Api
             {
                 c.Filters.Add(new FluentValidatorAttribute());
             })
-                .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>());
+                .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>())
+                .AddNewtonsoftJson(c => {
+                    c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
+                });
 
             services.AddAutoMapper(typeof(Startup));
 

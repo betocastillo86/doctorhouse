@@ -1,4 +1,5 @@
-﻿using Beto.Core.Data;
+﻿using System.Threading.Tasks;
+using Beto.Core.Data;
 using DoctorHouse.Data;
 
 namespace DoctorHouse.Business.Services
@@ -15,5 +16,11 @@ namespace DoctorHouse.Business.Services
             bool? onlyActive = null,
             int page = 0,
             int pageSize = int.MaxValue);
+
+        Place GetById(int id);
+
+        Task UpdateAsync(Place place);
+
+        Task InsertAsync(Place place);
     }
 }
