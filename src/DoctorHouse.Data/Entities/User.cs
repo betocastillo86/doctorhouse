@@ -5,7 +5,7 @@ using Beto.Core.Data.Users;
 
 namespace DoctorHouse.Data
 {
-    public partial class User : IEntity
+    public partial class User : IEntity, IUserEntity
     {
         public User()
         {
@@ -34,6 +34,10 @@ namespace DoctorHouse.Data
         public string JobAddress { get; set; }
 
         public bool Deleted { get; set; }
+
+        public Guid? DeviceId { get; set; }
+
+        public Guid? IOsDeviceId { get; set; }
 
         public virtual Location Location { get; set; }
     }

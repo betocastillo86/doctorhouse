@@ -74,7 +74,7 @@ This is the list of endpoints:
 
 # Other features
 
-- ❌ Send email notifications
+- ✔️ Send email notifications
 - ❌ Unit testing
 - ❌ Front end (If you have any ideas you can start here https://github.com/betocastillo86/doctorhouse.web)
 - ❌ Seeding full list of countries and cities
