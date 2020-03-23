@@ -67,6 +67,8 @@ namespace DoctorHouse.Api
                 c.AddFluentValidationRules();
             });
 
+            services.RegisterHangFireServices(this.Configuration);
+
             services.AddSwaggerGenNewtonsoftSupport();
 
             services.RegisterHouseServices(this.Configuration);
@@ -93,12 +95,15 @@ namespace DoctorHouse.Api
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            app.AddHangFire(this.Configuration);
         }
     }
 }

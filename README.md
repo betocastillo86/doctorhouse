@@ -15,6 +15,7 @@ The project is developed with .Net Core 3.0 and uses:
 - EF Core
 - Migrations
 - Swagger
+- Hangfire
 
 **Update submodules**
 
@@ -74,7 +75,9 @@ This is the list of endpoints:
 
 # Other features
 
-- ✔️ Send email notifications
+- ✔️ Notification System
+   - ❌ Notify new request
+   - ❌ Notify request approved / rejected
 - ❌ Unit testing
 - ❌ Front end (If you have any ideas you can start here https://github.com/betocastillo86/doctorhouse.web)
 - ❌ Seeding full list of countries and cities
