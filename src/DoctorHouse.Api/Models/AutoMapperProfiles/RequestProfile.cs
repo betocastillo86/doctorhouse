@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DoctorHouse.Api.Models.Requests;
 using DoctorHouse.Data;
 
 namespace DoctorHouse.Api.Models.AutoMapperProfiles
@@ -9,6 +10,7 @@ namespace DoctorHouse.Api.Models.AutoMapperProfiles
         {
             CreateMap<Request, RequestModel>()
                 .ReverseMap();
+            CreateMap<NewRequestModel, Request>();
         }
     }
 }

@@ -1,8 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Beto.Core.Exceptions;
 using Beto.Core.Web.Api.Controllers;
 using Beto.Core.Web.Api.Filters;
 using DoctorHouse.Api.Models;
+using DoctorHouse.Api.Models.Requests;
+using DoctorHouse.Business.Services;
+using DoctorHouse.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,22 +16,29 @@ namespace DoctorHouse.Api.Controllers
     [Route("api/v1/requests")]
     public class RequestsController : BaseApiController
     {
-        public RequestsController(IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
+        private readonly IRequestService requestService;
+
+        private readonly IMapper mapper;
+
+        public RequestsController(IMessageExceptionFinder messageExceptionFinder,
+            IRequestService requestService,
+            IMapper mapper) : base(messageExceptionFinder)
         {
+            this.requestService = requestService;
+            this.mapper = mapper;
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult Get([FromQuery] RequestFilterModel model)
+        public ActionResult Get([FromQuery] RequestFilterModel filter)
         {
-            var models = new List<RequestModel>()
-            {
-                new RequestModel
-                {
-                }
-            };
+            var requests = this.requestService.GetAll(
+                page: filter.Page,
+                pageSize: filter.PageSize);
 
-            return this.Ok(models, true, 10);
+            var results = this.mapper.Map<IList<RequestModel>>(requests);
+
+            return this.Ok(results);
         }
 
         [Authorize]
@@ -34,29 +46,33 @@ namespace DoctorHouse.Api.Controllers
         [Route("{id:int}", Name = "GetRequestById")]
         public IActionResult Get(int id)
         {
-            var models = new List<RequestModel>()
-            {
-                new RequestModel
-                {
-                }
-            };
+            var request = this.requestService.GetById(id);
 
-            return this.Ok(models);
+            if (request == null)
+            {
+                return this.NotFound();
+            }
+
+            var model = this.mapper.Map<RequestModel>(request);
+
+            return this.Ok(model);
         }
 
         [Authorize]
         [HttpPost]
         [RequiredModel]
-        [Route("{id:int}")]
-        public IActionResult Post([FromBody] RequestModel model)
+        public async Task<IActionResult> Post([FromBody] NewRequestModel model)
         {
-            return this.Created("GetRequestById", 1);
+            var entity = this.mapper.Map<NewRequestModel, Request>(model);
+
+            await this.requestService.InsertAsync(entity);
+
+            return this.Ok(model);
         }
 
         [Authorize]
         [HttpPut]
         [RequiredModel]
-        [Route("{id:int}")]
         public IActionResult Put(int id, [FromBody] RequestModel model)
         {
             return this.Ok();
