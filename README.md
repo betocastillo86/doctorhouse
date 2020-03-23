@@ -54,8 +54,8 @@ This is the list of endpoints:
 - Places
    - ✔️ GET
    - ✔️ GET by ID
-   - ❌ POST
-   - ❌ PUT
+   - ✔️ POST
+   - ✔️ PUT
    - ❌ DELETE
 - Requests
    - ❌ GET

@@ -108,8 +108,43 @@ namespace DoctorHouse.Api.Controllers
         [HttpPut]
         [RequiredModel]
         [Route("{id:int}")]
-        public IActionResult Put(int id, [FromBody] PlaceModel model)
+        public async Task<IActionResult> Put(int id, [FromBody] PlaceModel model)
         {
+            var place = this.placeService.GetById(id);
+
+            if (place == null)
+            {
+                return this.NotFound();
+            }
+
+            if (place.UserId != this.workContext.CurrentUserId)
+            {
+                return this.Forbid();
+            }
+
+            place.Latitude = model.Latitude.Value;
+            place.Longitude = model.Longitude.Value;
+            place.Address = model.Address;
+            place.Phone = model.Phone;
+            place.Description = model.Description;
+            place.GuestsAllowed = model.GuestAllowed.Value;
+            place.Bathroom = model.Bathroom;
+            place.Food = model.Food;
+            place.Kitchen = model.Kitchen;
+            place.Parking = model.Parking;
+            place.Internet = model.Internet;
+            place.EntireHouse = model.EntireHouse;
+            place.LocationId = model.Location.Id;
+
+            try
+            {
+                await this.placeService.UpdateAsync(place);
+            }
+            catch (DoctorHouseException e)
+            {
+                return this.BadRequest(e);
+            }
+
             return this.Ok();
         }
     }

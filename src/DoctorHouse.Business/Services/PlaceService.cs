@@ -72,7 +72,10 @@ namespace DoctorHouse.Business.Services
 
         public Place GetById(int id)
         {
-            return this.placeRepository.TableNoTracking.FirstOrDefault(c => c.Id == id && !c.Deleted);
+            return this.placeRepository.TableNoTracking
+                .Include(c => c.User)
+                .Include(c => c.Location)
+                .FirstOrDefault(c => c.Id == id && !c.Deleted);
         }
 
         public async Task InsertAsync(Place place)
@@ -111,9 +114,39 @@ namespace DoctorHouse.Business.Services
             }
         }
 
-        public Task UpdateAsync(Place place)
+        public async Task UpdateAsync(Place place)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await this.placeRepository.UpdateAsync(place);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is SqlException)
+                {
+                    var sqlex = (SqlException)e.InnerException;
+
+                    if (sqlex.Number == 547)
+                    {
+                        var target = e.ToString();
+
+                        if (sqlex.Message.IndexOf("FK_Places_Locations") != -1)
+                        {
+                            target = "Locations";
+                        }
+
+                        throw new DoctorHouseException(target, DoctorHouseExceptionCode.InvalidForeignKey);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }
