@@ -6,12 +6,12 @@ namespace DoctorHouse.Business.Services
 {
     public interface IGuestService
     {
-        IPagedList<Place> GetAll(
+        IPagedList<Guest> GetAll(
             int? id = null,
-            string Name = null,
-            string Phone = null,
-            string JobPlace = null,
-            string JobAddress = null,
+            string name = null,
+            string phone = null,
+            string jobPlace = null,
+            string jobAddress = null,
             int page = 0,
             int pageSize = int.MaxValue);
 
