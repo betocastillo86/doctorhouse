@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Beto.Core.Data;
 using Beto.Core.EventPublisher;
+using DoctorHouse.Business.Services.Communication;
 using DoctorHouse.Data;
 
 namespace DoctorHouse.Business.Services
@@ -17,57 +18,90 @@ namespace DoctorHouse.Business.Services
             this.requestRepository = _requestRepository;
         }
 
-        public Task Delete(Request request)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IPagedList<Request> GetAll
+        public ListRequestResponse GetAllByRequesterId
         (
-            int? userId = null, 
+            int requesterId, 
             int page = 0, 
             int pageSize = int.MaxValue)
         {
-            var query = this.requestRepository.TableNoTracking;
+            var query = this.requestRepository.TableNoTracking.Where(w => w.UserRequesterId == requesterId);
 
-            return new PagedList<Request>(query, page, pageSize);
+            var pagedList = new PagedList<Request>(query, page, pageSize);
+
+            return new ListRequestResponse()
+            {
+                Success = true,
+                Requests = pagedList
+            };
         }
 
-        public Request GetById(int id)
+        public ListRequestResponse GetAllByOwnerId
+        (
+            int ownerId, 
+            int page = 0, 
+            int pageSize = int.MaxValue)
         {
-            return this.requestRepository.TableNoTracking.FirstOrDefault(c => c.Id == id);
+            var query = this.requestRepository.TableNoTracking.Where(w => w.UserOwnerId == ownerId);
+
+            var pagedList = new PagedList<Request>(query, page, pageSize);
+
+            return new ListRequestResponse()
+            {
+                Success = true,
+                Requests = pagedList
+            };
         }
 
-        public Task InsertAsync(Request request)
+        public RequestResponse GetById(int id)
         {
-            return this.requestRepository.InsertAsync(request);
+            var request = this.requestRepository.TableNoTracking.Where(c => c.Id == id).FirstOrDefault();
+
+            return new RequestResponse()
+            {
+                Success = true,
+                Request = request
+            };
         }
 
-        public Task UpdateAsync(Request request)
+        public async Task<RequestResponse> InsertAsync(Request request)
         {
-            var dbRequest = GetById(request.Id);
-            dbRequest.Description = request.Description;
-            if(dbRequest!= null){
-                return this.requestRepository.UpdateAsync(request);
+            await this.requestRepository.InsertAsync(request);
+
+            return new RequestResponse()
+            {
+                Success = true
+            };
+        }
+
+        public async Task<RequestResponse> UpdateAsync(Request request)
+        {
+            var dbRequest = this.requestRepository.TableNoTracking.Where(c => c.Id == request.Id).FirstOrDefault();
+            var result = false;
+            if(dbRequest != null){
+                dbRequest.Description = request.Description;
+                result = (await this.requestRepository.UpdateAsync(request)) == 1;
             }
 
-            throw new Exception("Not Found");
-            
+            return new RequestResponse()
+            {
+                Success = result,
+                Request = dbRequest
+            };
         }
 
-        // public Place GetById(int id)
-        // {
-        //     return this.placeRepository.TableNoTracking.FirstOrDefault(c => c.Id == id && !c.Deleted);
-        // }
+        public async Task<RequestResponse> DeleteAsync(int id)
+        {
+            var dbRequest = this.requestRepository.TableNoTracking.Where(c => c.Id == id).FirstOrDefault();
+            var result = false;
+            if(dbRequest != null){
+                result = (await this.requestRepository.DeleteAsync(dbRequest)) == 1;
+            }
 
-        // public Task InsertAsync(Place place)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task UpdateAsync(Place place)
-        // {
-        //     throw new NotImplementedException();
-        // }
+            return new RequestResponse()
+            {
+                Success = result,
+                Request = dbRequest
+            };
+        }
     }
 }

@@ -2,7 +2,7 @@ using System;
 
 namespace DoctorHouse.Api.Models.Requests
 {
-    public class NewRequestModel
+    public class SaveRequestModel
     {
         public int PlaceId { get; set; }
 
