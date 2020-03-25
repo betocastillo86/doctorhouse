@@ -19,42 +19,21 @@ namespace DoctorHouse.Business.Services
         }
 
         public IPagedList<Guest> GetAll(
-            int? id = null, 
-            string name = null, 
-            string phone = null, 
-            string jobPlace = null, 
-            string jobAddress = null, 
+            int requestId,
             int page = 0, 
             int pageSize = int.MaxValue)
         {
             var query = this.guestRepository.TableNoTracking;
 
-            if (id.HasValue)
-            {
-                query = query.Where(c => c.Id == id);
-            }
-
-            if (!String.IsNullOrEmpty(name))
-            {
-                query = query.Where(c => c.Name == name);
-            }
-            
-            if (!String.IsNullOrEmpty(phone))
-            {
-                query = query.Where(c => c.Phone == phone);
-            }
-
-            if (!String.IsNullOrEmpty(jobPlace))
-            {
-                query = query.Where(c => c.JobPlace == jobPlace);
-            }
-
-            if (!String.IsNullOrEmpty(jobAddress))
-            {
-                query = query.Where(c => c.JobAddress == jobAddress);
-            }
+            query = query.Where(c => c.RequestId == requestId);
 
             return new PagedList<Guest>(query, page, pageSize);
+        }
+
+        public Guest GetById(int id)
+        {
+            return this.guestRepository.TableNoTracking
+                .Where(p => p.Id == id).FirstOrDefault();
         }
 
         public async Task UpdateAsync(Guest guest)
