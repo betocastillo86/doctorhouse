@@ -58,17 +58,17 @@ This is the list of endpoints:
    - ✔️ POST
    - ✔️ PUT
    - ❌ DELETE
-- Requests
+- Requests (In Progress)
    - ❌ GET
    - ❌ GET by ID
    - ❌ POST
    - ❌ PUT
    - ❌ DELETE
-- Guests
+- Guests  (In Progress)
    - ❌ GET
    - ❌ PUT
 - Locations
-   - ❌ GET
+   - ✔️ GET
 
 ![image](https://user-images.githubusercontent.com/8453022/77238367-4b903180-6b9d-11ea-8a9a-fc85c4b37476.png)
 
@@ -79,6 +79,6 @@ This is the list of endpoints:
    - ❌ Notify new request
    - ❌ Notify request approved / rejected
 - ❌ Unit testing
-- ❌ Front end (If you have any ideas you can start here https://github.com/betocastillo86/doctorhouse.web)
+- ❌ https://github.com/betocastillo86/doctorhouse.web
 - ❌ Seeding full list of countries and cities
-- ❌ CD / CI
+- ✔️ CD / CI
