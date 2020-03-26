@@ -4,6 +4,7 @@ namespace DoctorHouse.Api.Models.Requests
 {
     public class SaveRequestModel
     {
+        public int Id { get; set; }
         public int PlaceId { get; set; }
 
         public int UserOwnerId { get; set; }
@@ -16,5 +17,7 @@ namespace DoctorHouse.Api.Models.Requests
         public byte StatusId { get; set; }
 
         public DateTime CreationDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using AutoMapper;
 using Beto.Core.Exceptions;
 using Beto.Core.Web.Api.Controllers;
 using Beto.Core.Web.Api.Filters;
+using DoctorHouse.Api.ActionFilters;
 using DoctorHouse.Api.Extensions;
 using DoctorHouse.Api.Models;
 using DoctorHouse.Api.Models.Requests;
@@ -35,70 +36,83 @@ namespace DoctorHouse.Api.Controllers
             this.context = context;
         }
 
-        [ProducesResponseType(typeof(RequesterListRequestResponseModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ListRequestResponseModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [Produces("application/json")]
         [HttpGet("get-all-by-requesterid")]
         public ActionResult GetAllRequestsByRequesterId([FromQuery] RequestFilterModel filter)
         {
+            if(!filter.UserRequesterId.HasValue) {
+                return BadRequest();
+            }
             var response = this.requestService.GetAllByRequesterId(
-                requesterId: this.context.CurrentUserId,
+                requesterId: filter.UserRequesterId.Value, //this.context.CurrentUserId,
                 page: filter.Page,
                 pageSize: filter.PageSize);
 
-            var models = this.mapper.Map<IList<Request>, IList<RequesterRequestModel>>(response.Requests);
-            var result = new RequesterListRequestResponseModel() {
+            if(!response.Success)
+                return BadRequest(response.ErrorMessage);
+
+            var models = this.mapper.Map<IList<Request>, IList<RequestModel>>(response.Requests);
+            var result = new ListRequestResponseModel() {
                 Success = true,
                 Requests = models
             };
             return this.Ok(result);
         }
 
-        [ProducesResponseType(typeof(OwnerListRequestResponseModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ListRequestResponseModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [Produces("application/json")]
         [HttpGet("get-all-by-ownerid")]
         public ActionResult GetAllRequestsByOwnerId([FromQuery] RequestFilterModel filter)
         {
+            if(!filter.UserOwnerId.HasValue) {
+                return BadRequest();
+            }
+
             var response = this.requestService.GetAllByOwnerId(
-                ownerId: this.context.CurrentUserId,
+                ownerId: filter.UserOwnerId.Value,//this.context.CurrentUserId,
                 page: filter.Page,
                 pageSize: filter.PageSize);
 
-            var models = this.mapper.Map<IList<Request>, IList<OwnerRequestModel>>(response.Requests);
-            var result = new OwnerListRequestResponseModel() {
+            if(!response.Success)
+                return BadRequest(response.ErrorMessage);
+
+            var models = this.mapper.Map<IList<Request>, IList<RequestModel>>(response.Requests);
+            var result = new ListRequestResponseModel() {
                 Success = true,
                 Requests = models
             };
             return this.Ok(result);
         }
         
-        // [ProducesResponseType(typeof(SaveRequestResponseModel), (int)HttpStatusCode.OK)]
-        // [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        // [Produces("application/json")]
-        // [HttpGet]
-        // [Route("{id:int}", Name = "GetRequestById")]
-        // public IActionResult Get(int id)
-        // {
-        //     var response = this.requestService.GetById(id);
+        [ProducesResponseType(typeof(SaveRequestResponseModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [Produces("application/json")]
+        [HttpGet("id")]
+        public IActionResult GetRequestById(int id)
+        {
+            var response = this.requestService.GetById(id);
 
-        //     if (response.Request == null) {
-        //         return this.NotFound();
-        //     }
+            if (response.Request == null) {
+                return this.NotFound();
+            }
 
-        //     var model = this.mapper.Map<Request, ShowRequestModel>(response.Request);
-        //     var result = new SaveRequestResponseModel() {
-        //         Success = true,
-        //         Request = model
-        //     };
-        //     return this.Ok(result);
-        // }
+            var model = this.mapper.Map<Request, RequestModel>(response.Request);
+            var result = new RequestResponseModel() {
+                Success = true,
+                Request = model
+            };
+            return this.Ok(result);
+        }
         
         [ProducesResponseType(typeof(SaveRequestResponseModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [Produces("application/json")]
         [HttpPost]
         [RequiredModel]
+        [ServiceFilter(typeof(SaveRequestFilter))]
         public async Task<IActionResult> PostAsync([FromBody] SaveRequestModel model)
         {
             if (!ModelState.IsValid)
@@ -130,7 +144,7 @@ namespace DoctorHouse.Api.Controllers
                 return BadRequest(ModelState.GetErrorMessages());
 
             var entity = this.mapper.Map<SaveRequestModel, Request>(model);
-            var response = await this.requestService.UpdateAsync(entity);
+            var response = await this.requestService.UpdateAsync(id, entity);
 
             if (!response.Success)
                 return BadRequest(response.ErrorMessage);
@@ -144,7 +158,6 @@ namespace DoctorHouse.Api.Controllers
             return Ok(result);
         }
 
-        [RequiredModel]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

@@ -5,6 +5,7 @@ using Beto.Core.Data;
 using Beto.Core.EventPublisher;
 using DoctorHouse.Business.Services.Communication;
 using DoctorHouse.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoctorHouse.Business.Services
 {
@@ -24,8 +25,9 @@ namespace DoctorHouse.Business.Services
             int page = 0, 
             int pageSize = int.MaxValue)
         {
-            var query = this.requestRepository.TableNoTracking.Where(w => w.UserRequesterId == requesterId);
-
+            var allRequests = GetAllRequests();
+            var query = allRequests.Where(w => w.UserRequesterId == requesterId);
+            
             var pagedList = new PagedList<Request>(query, page, pageSize);
 
             return new ListRequestResponse()
@@ -41,7 +43,8 @@ namespace DoctorHouse.Business.Services
             int page = 0, 
             int pageSize = int.MaxValue)
         {
-            var query = this.requestRepository.TableNoTracking.Where(w => w.UserOwnerId == ownerId);
+            var allRequests = GetAllRequests();
+            var query = allRequests.Where(w => w.UserOwnerId == ownerId);
 
             var pagedList = new PagedList<Request>(query, page, pageSize);
 
@@ -54,7 +57,7 @@ namespace DoctorHouse.Business.Services
 
         public RequestResponse GetById(int id)
         {
-            var request = this.requestRepository.TableNoTracking.Where(c => c.Id == id).FirstOrDefault();
+            var request = GetRequest(id);
 
             return new RequestResponse()
             {
@@ -65,43 +68,76 @@ namespace DoctorHouse.Business.Services
 
         public async Task<RequestResponse> InsertAsync(Request request)
         {
-            await this.requestRepository.InsertAsync(request);
-
-            return new RequestResponse()
+            try
             {
-                Success = true
-            };
+                await this.requestRepository.InsertAsync(request);
+                return new RequestResponse()
+                {
+                    Success = true,
+                    Request = request
+                };
+            }
+            catch (DbUpdateException e)
+            {
+                return new RequestResponse() { Success = false, ErrorMessage = "There was an error creating the request." };
+            }
         }
 
-        public async Task<RequestResponse> UpdateAsync(Request request)
+        public async Task<RequestResponse> UpdateAsync(int id, Request request)
         {
-            var dbRequest = this.requestRepository.TableNoTracking.Where(c => c.Id == request.Id).FirstOrDefault();
-            var result = false;
-            if(dbRequest != null){
-                dbRequest.Description = request.Description;
-                result = (await this.requestRepository.UpdateAsync(request)) == 1;
+            var dbRequest = GetRequest(id);
+            if(dbRequest == null){
+                return new RequestResponse() { Success = false, ErrorMessage = "Not Found" };
             }
-
-            return new RequestResponse()
+            
+            dbRequest.Description = request.Description;
+            dbRequest.StatusId = request.StatusId;
+            try
             {
-                Success = result,
-                Request = dbRequest
-            };
+                var success = (await this.requestRepository.UpdateAsync(dbRequest)) == 1;
+                if(success) {
+                    return new RequestResponse() { Success = true, Request = dbRequest };
+                } else {
+                    return new RequestResponse() { Success = false, ErrorMessage = "No rows affected" };
+                }
+            }
+            catch (DbUpdateException e)
+            {
+                return new RequestResponse() { Success = false, ErrorMessage = "There was an error saving the request." };
+            }
         }
 
         public async Task<RequestResponse> DeleteAsync(int id)
         {
-            var dbRequest = this.requestRepository.TableNoTracking.Where(c => c.Id == id).FirstOrDefault();
-            var result = false;
-            if(dbRequest != null){
-                result = (await this.requestRepository.DeleteAsync(dbRequest)) == 1;
+            var dbRequest = GetRequest(id);
+            if(dbRequest == null){
+                return new RequestResponse() { Success = false, ErrorMessage = "Not Found" };
             }
 
-            return new RequestResponse()
+            dbRequest.Deleted = true;
+            try
             {
-                Success = result,
-                Request = dbRequest
-            };
+                var success = (await this.requestRepository.UpdateAsync(dbRequest)) == 1;
+                if(success) {
+                    return new RequestResponse() { Success = true, Request = dbRequest };
+                } else {
+                    return new RequestResponse() { Success = false, ErrorMessage = "No rows affected" };
+                }
+            }
+            catch (DbUpdateException e)
+            {
+                return new RequestResponse() { Success = false, ErrorMessage = "There was an error deleting the request." };
+            }
+        }
+
+        private IQueryable<Request> GetAllRequests()
+        {
+            return this.requestRepository.TableNoTracking.Where(w => w.Deleted == false).Include(p => p.Place);
+        }
+
+        private Request GetRequest(int id)
+        {
+            return this.requestRepository.TableNoTracking.Where(c => c.Id == id).FirstOrDefault();
         }
     }
 }

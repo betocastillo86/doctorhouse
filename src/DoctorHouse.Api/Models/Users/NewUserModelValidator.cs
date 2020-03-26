@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace DoctorHouse.Api.Models
 {
@@ -27,6 +22,10 @@ namespace DoctorHouse.Api.Models
                 .NotEmpty()
                 .EmailAddress()
                 .MaximumLength(100);
+
+            this.RuleFor(c => c.UserType)
+                .NotNull()
+                .NotEmpty();
         }
     }
 }

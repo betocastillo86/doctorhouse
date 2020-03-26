@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Beto.Core.Data;
 using Beto.Core.Data.Users;
+using DoctorHouse.Data.Enums;
 
 namespace DoctorHouse.Data
 {
@@ -16,6 +17,8 @@ namespace DoctorHouse.Data
         public string Name { get; set; }
 
         public string Email { get; set; }
+
+        public short UserType { get; set; }
 
         public int? LocationId { get; set; }
 

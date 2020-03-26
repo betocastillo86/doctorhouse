@@ -1,4 +1,5 @@
 ﻿using System;
+using DoctorHouse.Data.Enums;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DoctorHouse.Data.Migrations
@@ -15,7 +16,8 @@ namespace DoctorHouse.Data.Migrations
                     CreationDate = DateTime.UtcNow,
                     Password = "e173460b741d297359e92a12bf8edcb14439a247", //123456
                     Salt = "F}S2¡7",
-                    LocationId = 1
+                    LocationId = 1,
+                    UserType = (int)UserType.Owner
                 });
 
             migrationBuilder.InsertPlace(

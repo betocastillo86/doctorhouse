@@ -10,9 +10,10 @@ namespace DoctorHouse.Api.Models.AutoMapperProfiles
         {
             CreateMap<Request, RequestModel>()
                 .ReverseMap();
-            CreateMap<SaveRequestModel, Request>();
-            CreateMap<OwnerRequestModel, Request>();
-            CreateMap<RequesterRequestModel, Request>();
+            CreateMap<SaveRequestModel, Request>()
+                .ReverseMap();
+            CreateMap<RequestModel, Request>()
+                .ReverseMap();
         }
     }
 }

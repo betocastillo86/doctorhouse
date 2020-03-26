@@ -15,6 +15,10 @@ namespace DoctorHouse.Data.Mapping
                 .IsRequired()
                 .HasMaxLength(100);
 
+            builder.Property(c => c.UserType)
+                .IsRequired()
+                .HasMaxLength(5);
+
             builder.Property(c => c.Password)
                 .IsRequired()
                 .HasMaxLength(50);

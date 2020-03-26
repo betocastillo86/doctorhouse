@@ -23,7 +23,7 @@ namespace DoctorHouse.Business.Services
 
         Task<RequestResponse> InsertAsync(Request request);
 
-        Task<RequestResponse> UpdateAsync(Request request);
+        Task<RequestResponse> UpdateAsync(int id, Request request);
 
         Task<RequestResponse> DeleteAsync(int id);
     }
