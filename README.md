@@ -64,8 +64,8 @@ This is the list of endpoints:
    - ❌ PUT
    - ❌ DELETE
 - Guests
-   - ❌ GET
-   - ❌ PUT
+   - ✔️ GET
+   - ✔️ PUT
 - Locations
    - ❌ GET
 
