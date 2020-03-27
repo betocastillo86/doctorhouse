@@ -64,9 +64,9 @@ This is the list of endpoints:
    - ❌ POST
    - ❌ PUT
    - ❌ DELETE
-- Guests  (In Progress)
-   - ❌ GET
-   - ❌ PUT
+- Guests
+   - ✔️ GET
+   - ✔️ PUT
 - Locations
    - ✔️ GET
 
