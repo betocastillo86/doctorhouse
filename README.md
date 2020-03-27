@@ -59,11 +59,11 @@ This is the list of endpoints:
    - ✔️ PUT
    - ❌ DELETE
 - Requests (In Progress)
-   - ❌ GET
-   - ❌ GET by ID
-   - ❌ POST
-   - ❌ PUT
-   - ❌ DELETE
+   - ✔️ GET
+   - ✔️ GET by ID
+   - ✔️ POST
+   - ✔️ PUT
+   - ✔️ DELETE
 - Guests
    - ✔️ GET
    - ✔️ PUT
@@ -82,3 +82,10 @@ This is the list of endpoints:
 - ❌ https://github.com/betocastillo86/doctorhouse.web
 - ❌ Seeding full list of countries and cities
 - ✔️ CD / CI
+
+# Contributors
+
+- [Gabriel Castillo](https://co.linkedin.com/in/betocastillo86)
+- [Angel Soto](https://co.linkedin.com/in/angel5070)
+- [Carlos Ramírez](https://www.linkedin.com/in/carlos-alberto-ram%C3%ADrez-herrera-a418b132/)
+- [Julian Castillo](https://www.linkedin.com/in/julian-david-castillo-prada-7925b145/)
