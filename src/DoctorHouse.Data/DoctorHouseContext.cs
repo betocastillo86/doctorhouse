@@ -22,6 +22,10 @@ namespace DoctorHouse.Data
 
         public virtual DbSet<User> Users { get; set; }
 
+        public virtual DbSet<Notification> Notifications { get; set; }
+
+        public virtual DbSet<EmailNotification> EmailNotifications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new GuestMapping());
@@ -29,6 +33,8 @@ namespace DoctorHouse.Data
             modelBuilder.ApplyConfiguration(new PlaceMapping());
             modelBuilder.ApplyConfiguration(new RequestMapping());
             modelBuilder.ApplyConfiguration(new UserMapping());
+            modelBuilder.ApplyConfiguration(new NotificationMapping());
+            modelBuilder.ApplyConfiguration(new EmailNotificationMapping());
         }
 
         public void BulkInsert<T>(IList<T> entities, BulkConfigCore bulkConfig = null, Action<decimal> progress = null) where T : class

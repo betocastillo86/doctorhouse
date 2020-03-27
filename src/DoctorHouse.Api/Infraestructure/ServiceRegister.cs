@@ -46,6 +46,10 @@ namespace DoctorHouse.Api.Infraestructure
 
             services.AddScoped<IGuestService, GuestService>();
 
+            services.AddScoped<INotificationService, NotificationService>();
+
+            services.AddScoped<ILocationService, LocationService>();
+
             services.AddMemoryCache();
 
             RegisterCoreServices(services, configuration);
