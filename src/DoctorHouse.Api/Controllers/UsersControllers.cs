@@ -67,7 +67,8 @@ namespace DoctorHouse.Api.Controllers
                 Email = model.Email,
                 Salt = !string.IsNullOrEmpty(model.Password) ? salt : null,
                 LocationId = model.LocationId,
-                Password = !string.IsNullOrEmpty(model.Password) ? StringHelpers.ToSha1(model.Password, salt) : null
+                Password = !string.IsNullOrEmpty(model.Password) ? StringHelpers.ToSha1(model.Password, salt) : null,
+                UserType = (short)model.UserType
             };
 
             try
@@ -105,6 +106,7 @@ namespace DoctorHouse.Api.Controllers
             user.JobAddress = model.JobAddress;
             user.LocationId = model.Location?.Id;
             user.Email = model.Email;
+            user.UserType = model.UserType;
             user.PhoneNumber = model.PhoneNumber;
 
             try

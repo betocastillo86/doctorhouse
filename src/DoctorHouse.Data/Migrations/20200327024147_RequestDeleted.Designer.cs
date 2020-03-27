@@ -4,73 +4,22 @@ using DoctorHouse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DoctorHouse.Data.Migrations
 {
     [DbContext(typeof(DoctorHouseContext))]
-    partial class DoctorHouseContextModelSnapshot : ModelSnapshot
+    [Migration("20200327024147_RequestDeleted")]
+    partial class RequestDeleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DoctorHouse.Data.EmailNotification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Cc")
-                        .HasColumnName("CC")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsSent")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ScheduledDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("SentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<short>("SentTries")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("varchar(300)");
-
-                    b.Property<string>("To")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("ToName")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsSent");
-
-                    b.HasIndex("SentTries", "SentDate");
-
-                    b.ToTable("EmailNotifications");
-                });
 
             modelBuilder.Entity("DoctorHouse.Data.Guest", b =>
                 {
@@ -139,58 +88,6 @@ namespace DoctorHouse.Data.Migrations
                     b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("DoctorHouse.Data.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("EmailHtml")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmailSubject")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
-
-                    b.Property<bool>("IsEmail")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsMobile")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsSystem")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MobileText")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("SystemText")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
-
-                    b.Property<string>("Tags")
-                        .HasColumnType("nvarchar(3000)")
-                        .HasMaxLength(3000);
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Notifications");
-                });
-
             modelBuilder.Entity("DoctorHouse.Data.Place", b =>
                 {
                     b.Property<int>("Id")
@@ -206,10 +103,10 @@ namespace DoctorHouse.Data.Migrations
                         .HasColumnType("nvarchar(80)")
                         .HasMaxLength(80);
 
-                    b.Property<DateTime?>("AvailableFrom")
+                    b.Property<DateTime>("AvailableFrom")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("AvailableTo")
+                    b.Property<DateTime>("AvailableTo")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("Bathroom")
@@ -231,7 +128,7 @@ namespace DoctorHouse.Data.Migrations
                     b.Property<bool>("Food")
                         .HasColumnType("bit");
 
-                    b.Property<byte>("GuestsAllowed")
+                    b.Property<byte>("GuestAllowed")
                         .HasColumnType("tinyint");
 
                     b.Property<bool>("Internet")
@@ -240,14 +137,14 @@ namespace DoctorHouse.Data.Migrations
                     b.Property<bool>("Kitchen")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Latitude")
-                        .HasColumnType("decimal");
+                    b.Property<long>("Latitude")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Longitude")
-                        .HasColumnType("decimal");
+                    b.Property<long>("Logitude")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("Parking")
                         .HasColumnType("bit");
@@ -331,16 +228,10 @@ namespace DoctorHouse.Data.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("DeviceId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
-
-                    b.Property<Guid?>("IOsDeviceId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("JobAddress")
                         .HasColumnType("nvarchar(100)")

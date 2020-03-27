@@ -8,6 +8,7 @@ using Beto.Core.EventPublisher;
 using Beto.Core.Exceptions;
 using Beto.Core.Helpers;
 using Beto.Core.Registers;
+using DoctorHouse.Api.ActionFilters;
 using DoctorHouse.Business.Exceptions;
 using DoctorHouse.Business.Security;
 using DoctorHouse.Business.Services;
@@ -43,6 +44,8 @@ namespace DoctorHouse.Api.Infraestructure
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IPlaceService, PlaceService>();
+            services.AddScoped<IRequestService, RequestService>();
+            
 
             services.AddScoped<IGuestService, GuestService>();
 
@@ -57,6 +60,8 @@ namespace DoctorHouse.Api.Infraestructure
 
         private static void RegisterCoreServices(IServiceCollection services, IConfiguration configuration)
         {
+            SetupActionFilters(services);
+
             services.AddScoped<IWorkContext, WorkContext>();
 
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
@@ -99,6 +104,11 @@ namespace DoctorHouse.Api.Infraestructure
                     services.AddScoped(serviceFoundType, implementationType);
                 }
             }
+        }
+
+        private static void SetupActionFilters(IServiceCollection services)
+        {
+            services.AddScoped<SaveRequestFilter>();
         }
     }
 }
