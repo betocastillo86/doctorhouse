@@ -21,12 +21,6 @@ namespace DoctorHouse.Data.Migrations
                 maxLength: 100,
                 nullable: true);
             
-            migrationBuilder.AddColumn<short>(
-                name: "UserType",
-                table: "Users",
-                maxLength: 10,
-                nullable: false);
-
             migrationBuilder.AddColumn<string>(
                 name: "JobPlace",
                 table: "Users",
@@ -46,10 +40,6 @@ namespace DoctorHouse.Data.Migrations
                 name: "JobAddress",
                 table: "Users");
             
-            migrationBuilder.DropColumn(
-                name: "UserType",
-                table: "Users");
-
             migrationBuilder.DropColumn(
                 name: "JobPlace",
                 table: "Users");

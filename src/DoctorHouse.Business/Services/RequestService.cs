@@ -1,10 +1,10 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Beto.Core.Data;
 using Beto.Core.EventPublisher;
-using DoctorHouse.Business.Services.Communication;
+using DoctorHouse.Business.Exceptions;
 using DoctorHouse.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace DoctorHouse.Business.Services
@@ -13,13 +13,17 @@ namespace DoctorHouse.Business.Services
     {
         private readonly IRepository<Request> requestRepository;
 
+        private readonly IPublisher publisher;
+
         public RequestService(
-            IRepository<Request> _requestRepository)
+            IRepository<Request> _requestRepository,
+           IPublisher publisher)
         {
+            this.publisher = publisher;
             this.requestRepository = _requestRepository;
         }
 
-        public ListRequestResponse GetAllByRequesterId
+        public IPagedList<Request> GetAllByRequesterId
         (
             int requesterId, 
             int page = 0, 
@@ -30,14 +34,10 @@ namespace DoctorHouse.Business.Services
             
             var pagedList = new PagedList<Request>(query, page, pageSize);
 
-            return new ListRequestResponse()
-            {
-                Success = true,
-                Requests = pagedList
-            };
+            return pagedList;
         }
 
-        public ListRequestResponse GetAllByOwnerId
+        public IPagedList<Request> GetAllByOwnerId
         (
             int ownerId, 
             int page = 0, 
@@ -48,86 +48,112 @@ namespace DoctorHouse.Business.Services
 
             var pagedList = new PagedList<Request>(query, page, pageSize);
 
-            return new ListRequestResponse()
-            {
-                Success = true,
-                Requests = pagedList
-            };
+            return pagedList;
         }
 
-        public RequestResponse GetById(int id)
+        public Request GetById(int id)
         {
             var request = GetRequest(id);
 
-            return new RequestResponse()
-            {
-                Success = true,
-                Request = request
-            };
+            return request;
         }
 
-        public async Task<RequestResponse> InsertAsync(Request request)
+        public async Task InsertAsync(Request request)
         {
             try
             {
                 await this.requestRepository.InsertAsync(request);
-                return new RequestResponse()
-                {
-                    Success = true,
-                    Request = request
-                };
             }
             catch (DbUpdateException e)
             {
-                return new RequestResponse() { Success = false, ErrorMessage = "There was an error creating the request." };
+                if (e.InnerException is SqlException)
+                {
+                    var sqlex = (SqlException)e.InnerException;
+
+                    if (sqlex.Number == 547)
+                    {
+                        var target = e.ToString();
+
+                        throw new DoctorHouseException(target, DoctorHouseExceptionCode.InvalidForeignKey);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                else
+                {
+                    throw;
+                }
             }
+
+            await this.publisher.EntityInserted(request);
         }
 
-        public async Task<RequestResponse> UpdateAsync(int id, Request request)
+        public async Task UpdateAsync(int id, Request request)
         {
             var dbRequest = GetRequest(id);
             if(dbRequest == null){
-                return new RequestResponse() { Success = false, ErrorMessage = "Not Found" };
+                throw new DoctorHouseException(DoctorHouseExceptionCode.BadArgument);
             }
             
             dbRequest.Description = request.Description;
             dbRequest.StatusId = request.StatusId;
             try
             {
-                var success = (await this.requestRepository.UpdateAsync(dbRequest)) == 1;
-                if(success) {
-                    return new RequestResponse() { Success = true, Request = dbRequest };
-                } else {
-                    return new RequestResponse() { Success = false, ErrorMessage = "No rows affected" };
-                }
+                await this.requestRepository.UpdateAsync(dbRequest);
             }
             catch (DbUpdateException e)
             {
-                return new RequestResponse() { Success = false, ErrorMessage = "There was an error saving the request." };
+                if (e.InnerException is SqlException)
+                {
+                    var sqlex = (SqlException)e.InnerException;
+
+                    if (sqlex.Number == 547)
+                    {
+                        var target = e.ToString();
+
+                        if (sqlex.Message.IndexOf("FK_Users_Locations") != -1)
+                        {
+                            target = "Locations";
+                        }
+
+                        throw new DoctorHouseException(target, DoctorHouseExceptionCode.InvalidForeignKey);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                else
+                {
+                    throw;
+                }
             }
+
+            await this.publisher.EntityUpdated(dbRequest);
+
         }
 
-        public async Task<RequestResponse> DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             var dbRequest = GetRequest(id);
             if(dbRequest == null){
-                return new RequestResponse() { Success = false, ErrorMessage = "Not Found" };
+                throw new DoctorHouseException(DoctorHouseExceptionCode.BadArgument);
             }
-
+            
             dbRequest.Deleted = true;
             try
             {
-                var success = (await this.requestRepository.UpdateAsync(dbRequest)) == 1;
-                if(success) {
-                    return new RequestResponse() { Success = true, Request = dbRequest };
-                } else {
-                    return new RequestResponse() { Success = false, ErrorMessage = "No rows affected" };
-                }
+                await this.requestRepository.UpdateAsync(dbRequest);
             }
             catch (DbUpdateException e)
             {
-                return new RequestResponse() { Success = false, ErrorMessage = "There was an error deleting the request." };
+                throw new DoctorHouseException(e.ToString());
             }
+
+            await this.publisher.EntityDeleted(dbRequest);
+
         }
 
         private IQueryable<Request> GetAllRequests()

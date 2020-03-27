@@ -30,7 +30,6 @@ namespace DoctorHouse.Data.Migrations
                {
                     "Name",
                     "Email",
-                    "UserType",
                     "LocationId",
                     "CreationDate",
                     "Password",
@@ -45,7 +44,6 @@ namespace DoctorHouse.Data.Migrations
                {
                     entity.Name,
                     entity.Email,
-                    entity.UserType,
                     entity.LocationId,
                     entity.CreationDate,
                     entity.Password,

@@ -109,10 +109,7 @@ namespace DoctorHouse.Data.Migrations
                     Description = table.Column<string>(nullable: false),
                     GuestTypeId = table.Column<byte>(nullable: false),
                     StatusId = table.Column<byte>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    StartDate = table.Column<DateTime>(nullable: false),
-                    EndDate = table.Column<DateTime>(nullable: false),
-                    Deleted = table.Column<bool>(nullable: true)
+                    CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

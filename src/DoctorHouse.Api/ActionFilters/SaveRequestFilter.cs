@@ -16,9 +16,9 @@ namespace DoctorHouse.Api.ActionFilters
                 var validator = new RequestValidator();
 
                 var result = validator.Validate(model);
-                if (!result.Success)
+                if (!string.IsNullOrWhiteSpace(result))
                 {
-                    context.Result = new BadRequestObjectResult(result.ErrorMessage);
+                    context.Result = new BadRequestObjectResult(result);
                     return;
                 }
             }

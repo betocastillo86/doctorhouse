@@ -22,10 +22,6 @@ namespace DoctorHouse.Api.Models
                 .NotEmpty()
                 .EmailAddress()
                 .MaximumLength(100);
-
-            this.RuleFor(c => c.UserType)
-                .NotNull()
-                .NotEmpty();
         }
     }
 }
