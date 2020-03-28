@@ -149,27 +149,17 @@ namespace DoctorHouse.Business.Services
             }
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Place place)
         {
-            var dbRequest = GetPlace(id);
-            if(dbRequest == null){
-                throw new DoctorHouseException(DoctorHouseExceptionCode.BadArgument);
-            }
-            
-            dbRequest.Deleted = true;
+            place.Deleted = true;
             try
             {
-                await this.placeRepository.DeleteAsync(dbRequest);
+                await this.placeRepository.DeleteAsync(place);
             }
             catch (DbUpdateException e)
             {
                 throw new DoctorHouseException(e.ToString());
             }
-        }
-
-        private Place GetPlace(int id)
-        {
-            return this.placeRepository.TableNoTracking.Where(c => c.Id == id).FirstOrDefault();
         }
     }
 }

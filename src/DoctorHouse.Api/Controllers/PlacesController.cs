@@ -148,16 +148,16 @@ namespace DoctorHouse.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                await this.placeService.DeleteAsync(id);
+            var place = this.placeService.GetById(id);
 
-                return this.Ok();
-            }
-            catch (DoctorHouseException e)
+            if (place == null)
             {
-                return this.BadRequest(e);
+                return this.NotFound();
             }
+
+            await this.placeService.DeleteAsync(place);
+
+            return this.Ok();
         }
     }
 }
