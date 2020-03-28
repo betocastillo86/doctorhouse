@@ -23,6 +23,6 @@ namespace DoctorHouse.Business.Services
 
         Task InsertAsync(Place place);
 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(Place place);
     }
 }
