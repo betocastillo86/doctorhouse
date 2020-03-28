@@ -148,5 +148,28 @@ namespace DoctorHouse.Business.Services
                 }
             }
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var dbRequest = GetPlace(id);
+            if(dbRequest == null){
+                throw new DoctorHouseException(DoctorHouseExceptionCode.BadArgument);
+            }
+            
+            dbRequest.Deleted = true;
+            try
+            {
+                await this.placeRepository.UpdateAsync(dbRequest);
+            }
+            catch (DbUpdateException e)
+            {
+                throw new DoctorHouseException(e.ToString());
+            }
+        }
+
+        private Place GetPlace(int id)
+        {
+            return this.placeRepository.TableNoTracking.Where(c => c.Id == id).FirstOrDefault();
+        }
     }
 }
