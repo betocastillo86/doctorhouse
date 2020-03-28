@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Beto.Core.Data", "..\ext\be
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Beto.Core.Web", "..\ext\beto.core\src\Beto.Core.Web\Beto.Core.Web.csproj", "{DAFD2314-7B04-49D2-BB92-081DE84B3083}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorHouse.Data", "DoctorHouse.Data\DoctorHouse.Data.csproj", "{69DB9868-6B57-4004-9AF7-E901FB880212}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorHouse.Data", "DoctorHouse.Data\DoctorHouse.Data.csproj", "{69DB9868-6B57-4004-9AF7-E901FB880212}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorHouse.Business", "DoctorHouse.Business\DoctorHouse.Business.csproj", "{96DC815D-8768-4D30-ABF7-F8DFC90B2989}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorHouse.Business", "DoctorHouse.Business\DoctorHouse.Business.csproj", "{96DC815D-8768-4D30-ABF7-F8DFC90B2989}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EDBBB1B7-C414-4EDE-8C2D-FAD4E99C3FFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorHouse.Api.Tests", "DoctorHouse.Api.Tests\DoctorHouse.Api.Tests.csproj", "{329BBF21-926F-44FB-8AEB-4AECAF7740B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,10 @@ Global
 		{96DC815D-8768-4D30-ABF7-F8DFC90B2989}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96DC815D-8768-4D30-ABF7-F8DFC90B2989}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96DC815D-8768-4D30-ABF7-F8DFC90B2989}.Release|Any CPU.Build.0 = Release|Any CPU
+		{329BBF21-926F-44FB-8AEB-4AECAF7740B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{329BBF21-926F-44FB-8AEB-4AECAF7740B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{329BBF21-926F-44FB-8AEB-4AECAF7740B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{329BBF21-926F-44FB-8AEB-4AECAF7740B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +63,7 @@ Global
 		{2A8DC3E2-54EE-4B65-9C1D-EDD3D4B53BDB} = {3289DD7B-589A-4C4B-A9EA-0BE816B66485}
 		{402B77D2-CE11-4EA3-8D26-AD91AA275897} = {3289DD7B-589A-4C4B-A9EA-0BE816B66485}
 		{DAFD2314-7B04-49D2-BB92-081DE84B3083} = {3289DD7B-589A-4C4B-A9EA-0BE816B66485}
+		{329BBF21-926F-44FB-8AEB-4AECAF7740B5} = {EDBBB1B7-C414-4EDE-8C2D-FAD4E99C3FFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B45C676E-DFC7-4AA2-A0AB-CF53B4E5CED5}

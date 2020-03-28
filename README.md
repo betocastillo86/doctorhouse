@@ -15,6 +15,7 @@ The project is developed with .Net Core 3.0 and uses:
 - EF Core
 - Migrations
 - Swagger
+- Hangfire
 
 **Update submodules**
 
@@ -57,25 +58,34 @@ This is the list of endpoints:
    - ✔️ POST
    - ✔️ PUT
    - ❌ DELETE
-- Requests
-   - ❌ GET
-   - ❌ GET by ID
-   - ❌ POST
-   - ❌ PUT
-   - ❌ DELETE
+- Requests (In Progress)
+   - ✔️ GET
+   - ✔️ GET by ID
+   - ✔️ POST
+   - ✔️ PUT
+   - ✔️ DELETE
 - Guests
-   - ❌ GET
-   - ❌ PUT
+   - ✔️ GET
+   - ✔️ PUT
 - Locations
-   - ❌ GET
+   - ✔️ GET
 
 ![image](https://user-images.githubusercontent.com/8453022/77238367-4b903180-6b9d-11ea-8a9a-fc85c4b37476.png)
 
 
 # Other features
 
-- ❌ Send email notifications
+- ✔️ Notification System
+   - ❌ Notify new request
+   - ❌ Notify request approved / rejected
 - ❌ Unit testing
-- ❌ Front end (If you have any ideas you can start here https://github.com/betocastillo86/doctorhouse.web)
+- ❌ https://github.com/betocastillo86/doctorhouse.web
 - ❌ Seeding full list of countries and cities
-- ❌ CD / CI
+- ✔️ CD / CI
+
+# Contributors
+
+- [Gabriel Castillo](https://co.linkedin.com/in/betocastillo86)
+- [Angel Soto](https://co.linkedin.com/in/angel5070)
+- [Carlos Ramírez](https://www.linkedin.com/in/carlos-alberto-ram%C3%ADrez-herrera-a418b132/)
+- [Julian Castillo](https://www.linkedin.com/in/julian-david-castillo-prada-7925b145/)

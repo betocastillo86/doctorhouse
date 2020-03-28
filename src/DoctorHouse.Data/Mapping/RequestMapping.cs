@@ -16,11 +16,6 @@ namespace DoctorHouse.Data.Mapping
                .HasForeignKey(c => c.PlaceId)
                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(c => c.UserOwner)
-               .WithMany()
-               .HasForeignKey(c => c.UserOwnerId)
-               .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasOne(c => c.UserRequester)
                .WithMany()
                .HasForeignKey(c => c.UserRequesterId)

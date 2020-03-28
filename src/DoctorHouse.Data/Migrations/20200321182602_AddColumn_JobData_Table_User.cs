@@ -20,7 +20,7 @@ namespace DoctorHouse.Data.Migrations
                 table: "Users",
                 maxLength: 100,
                 nullable: true);
-
+            
             migrationBuilder.AddColumn<string>(
                 name: "JobPlace",
                 table: "Users",
@@ -39,7 +39,7 @@ namespace DoctorHouse.Data.Migrations
             migrationBuilder.DropColumn(
                 name: "JobAddress",
                 table: "Users");
-
+            
             migrationBuilder.DropColumn(
                 name: "JobPlace",
                 table: "Users");

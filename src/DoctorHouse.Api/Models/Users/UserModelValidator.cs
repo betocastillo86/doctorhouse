@@ -32,6 +32,9 @@ namespace DoctorHouse.Api.Models
                 .NotEmpty()
                 .MaximumLength(100);
 
+            this.RuleFor(c => c.Location)
+                .NotNull();
+
             this.RuleFor(c => c.PhoneNumber)
                 .NotNull()
                 .NotEmpty()
