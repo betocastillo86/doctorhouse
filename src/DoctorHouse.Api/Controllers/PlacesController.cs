@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorHouse.Api.Controllers
 {
+    [Authorize]
     [Route("api/v1/places")]
     public class PlacesController : BaseApiController
     {
@@ -36,7 +37,6 @@ namespace DoctorHouse.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IActionResult Get([FromQuery] PlaceFilterModel filter)
         {
             var places = this.placeService.GetAll(
@@ -51,7 +51,6 @@ namespace DoctorHouse.Api.Controllers
             return this.Ok(models, places.HasNextPage, places.TotalCount);
         }
 
-        [Authorize]
         [HttpGet]
         [Route("{id:int}", Name = "GetPlaceById")]
         public IActionResult Get(int id)
@@ -68,7 +67,6 @@ namespace DoctorHouse.Api.Controllers
             return this.Ok(model);
         }
 
-        [Authorize]
         [HttpPost]
         [RequiredModel]
         public async Task<IActionResult> Post([FromBody] PlaceModel model)
@@ -104,7 +102,6 @@ namespace DoctorHouse.Api.Controllers
             return this.Created("GetPlaceById", place.Id);
         }
 
-        [Authorize]
         [HttpPut]
         [RequiredModel]
         [Route("{id:int}")]
@@ -146,6 +143,21 @@ namespace DoctorHouse.Api.Controllers
             }
 
             return this.Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await this.placeService.DeleteAsync(id);
+
+                return this.Ok();
+            }
+            catch (DoctorHouseException e)
+            {
+                return this.BadRequest(e);
+            }
         }
     }
 }
