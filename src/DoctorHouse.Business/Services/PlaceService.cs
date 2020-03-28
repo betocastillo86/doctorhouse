@@ -159,7 +159,7 @@ namespace DoctorHouse.Business.Services
             dbRequest.Deleted = true;
             try
             {
-                await this.placeRepository.UpdateAsync(dbRequest);
+                await this.placeRepository.DeleteAsync(dbRequest);
             }
             catch (DbUpdateException e)
             {
