@@ -44,7 +44,7 @@ namespace DoctorHouse.Business.Services
             int pageSize = int.MaxValue)
         {
             var allRequests = GetAllRequests();
-            var query = allRequests.Where(w => w.UserOwnerId == ownerId);
+            var query = allRequests.Where(w => w.Place.UserId == ownerId);
 
             var pagedList = new PagedList<Request>(query, page, pageSize);
 

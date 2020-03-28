@@ -9,6 +9,7 @@ namespace DoctorHouse.Api.Models
         public string Name { get; set; }
 
         public string Email { get; set; }
+
         public short UserType { get; set; }
 
         public string JobPlace { get; set; }

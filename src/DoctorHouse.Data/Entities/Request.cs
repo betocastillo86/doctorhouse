@@ -10,8 +10,6 @@ namespace DoctorHouse.Data
 
         public int PlaceId { get; set; }
 
-        public int UserOwnerId { get; set; }
-
         public int UserRequesterId { get; set; }
 
         public string Description { get; set; }
@@ -25,8 +23,6 @@ namespace DoctorHouse.Data
         public DateTime CreationDate { get; set; }
 
         public Place Place { get; set; }
-
-        public virtual User UserOwner { get; set; }
 
         public virtual User UserRequester { get; set; }
 

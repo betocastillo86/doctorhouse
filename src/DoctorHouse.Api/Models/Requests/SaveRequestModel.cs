@@ -1,23 +1,24 @@
 using System;
+using System.Text.Json.Serialization;
+using DoctorHouse.Data;
+using Newtonsoft.Json.Converters;
 
-namespace DoctorHouse.Api.Models.Requests
+namespace DoctorHouse.Api.Models
 {
     public class SaveRequestModel
     {
-        public int Id { get; set; }
         public int PlaceId { get; set; }
 
-        public int UserOwnerId { get; set; }
         public string Description { get; set; }
 
-        public int UserRequesterId { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public GuestType? GuestTypeId { get; set; }
 
-        public byte GuestTypeId { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public StatusType? StatusId { get; set; }
 
-        public byte StatusId { get; set; }
+        public DateTime? StartDate { get; set; }
 
-        public DateTime CreationDate { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Beto.Core.Exceptions;
 using Beto.Core.Web.Api.Controllers;
 using Beto.Core.Web.Api.Filters;
-using DoctorHouse.Api.ActionFilters;
 using DoctorHouse.Api.Extensions;
 using DoctorHouse.Api.Models;
-using DoctorHouse.Api.Models.Requests;
 using DoctorHouse.Business.Exceptions;
 using DoctorHouse.Business.Security;
 using DoctorHouse.Business.Services;
@@ -23,7 +20,9 @@ namespace DoctorHouse.Api.Controllers
     public class RequestsController : BaseApiController
     {
         private readonly IRequestService requestService;
-        private readonly IWorkContext context;
+
+        private readonly IWorkContext workContext;
+
         private readonly IMapper mapper;
 
         public RequestsController(
@@ -34,14 +33,15 @@ namespace DoctorHouse.Api.Controllers
         {
             this.requestService = requestService;
             this.mapper = mapper;
-            this.context = context;
+            this.workContext = context;
         }
 
         [Produces("application/json")]
         [HttpGet("get-all-by-requesterid")]
         public IActionResult GetAllRequestsByRequesterId([FromQuery] RequestFilterModel filter)
         {
-            if(!filter.UserRequesterId.HasValue) {
+            if (!filter.UserRequesterId.HasValue)
+            {
                 return BadRequest();
             }
 
@@ -59,7 +59,8 @@ namespace DoctorHouse.Api.Controllers
         [HttpGet("get-all-by-ownerid")]
         public IActionResult GetAllRequestsByOwnerId([FromQuery] RequestFilterModel filter)
         {
-            if(!filter.UserOwnerId.HasValue) {
+            if (!filter.UserOwnerId.HasValue)
+            {
                 return BadRequest();
             }
 
@@ -72,7 +73,7 @@ namespace DoctorHouse.Api.Controllers
 
             return this.Ok(models, requests.HasNextPage, requests.TotalCount);
         }
-        
+
         [Produces("application/json")]
         [HttpGet("id")]
         public IActionResult GetRequestById(int id)
@@ -88,25 +89,21 @@ namespace DoctorHouse.Api.Controllers
 
             return this.Ok(model);
         }
-        
+
         [Produces("application/json")]
         [HttpPost]
         [RequiredModel]
-        [ServiceFilter(typeof(SaveRequestFilter))]
         public async Task<IActionResult> PostAsync([FromBody] SaveRequestModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState.GetErrorMessages());
-
             var request = this.mapper.Map<SaveRequestModel, Request>(model);
-            
+            request.UserRequesterId = this.workContext.CurrentUserId;
+
             try
             {
                 await this.requestService.InsertAsync(request);
                 var requestModel = this.mapper.Map<Request, SaveRequestModel>(this.requestService.GetById(request.Id));
-                
-                return this.Ok(requestModel);
 
+                return this.Ok(requestModel);
             }
             catch (DoctorHouseException ex)
             {
