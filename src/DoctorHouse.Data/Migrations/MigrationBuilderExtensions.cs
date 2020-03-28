@@ -103,5 +103,43 @@ namespace DoctorHouse.Data.Migrations
                     entity.EntireHouse
                });
         }
+
+        public static void InsertNotification(this MigrationBuilder migrationBuilder, Notification entity)
+        {
+            migrationBuilder.InsertData(
+               "Notifications",
+               new string[]
+               {
+                    "Id",
+                    "Name",
+                    "EmailSubject",
+                    "EmailHtml",
+                    "SystemText",
+                    "Active",
+                    "Deleted",
+                    "IsEmail",
+                    "IsSystem",
+                    "Tags",
+                    "UpdateDate",
+                    "IsMobile",
+                    "MobileText"
+               },
+               new object[]
+               {
+                    entity.Id,
+                    entity.Name,
+                    entity.EmailSubject,
+                    entity.EmailHtml,
+                    entity.SystemText,
+                    entity.Active,
+                    entity.Deleted,
+                    entity.IsEmail,
+                    entity.IsSystem,
+                    entity.Tags,
+                    entity.UpdateDate,
+                    entity.IsMobile,
+                    entity.MobileText
+               });
+        }
     }
 }

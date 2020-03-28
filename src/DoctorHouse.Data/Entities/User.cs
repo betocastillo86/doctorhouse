@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using Beto.Core.Data;
 using Beto.Core.Data.Users;
+using DoctorHouse.Data.Enums;
 
 namespace DoctorHouse.Data
 {
-    public partial class User : IEntity
+    public partial class User : IEntity, IUserEntity
     {
         public User()
         {
@@ -16,6 +17,8 @@ namespace DoctorHouse.Data
         public string Name { get; set; }
 
         public string Email { get; set; }
+
+        public short UserType { get; set; }
 
         public int? LocationId { get; set; }
 
@@ -34,6 +37,10 @@ namespace DoctorHouse.Data
         public string JobAddress { get; set; }
 
         public bool Deleted { get; set; }
+
+        public Guid? DeviceId { get; set; }
+
+        public Guid? IOsDeviceId { get; set; }
 
         public virtual Location Location { get; set; }
     }

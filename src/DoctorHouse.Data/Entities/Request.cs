@@ -10,8 +10,6 @@ namespace DoctorHouse.Data
 
         public int PlaceId { get; set; }
 
-        public int UserOwnerId { get; set; }
-
         public int UserRequesterId { get; set; }
 
         public string Description { get; set; }
@@ -20,13 +18,16 @@ namespace DoctorHouse.Data
 
         public byte StatusId { get; set; }
 
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public DateTime CreationDate { get; set; }
 
-        public virtual Place Place { get; set; }
-
-        public virtual User UserOwner { get; set; }
+        public Place Place { get; set; }
 
         public virtual User UserRequester { get; set; }
+
+        public bool Deleted { get; set; }
+
 
         [NotMapped]
         public StatusType Status

@@ -14,9 +14,12 @@ namespace DoctorHouse.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment environment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            this.environment = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -67,17 +70,19 @@ namespace DoctorHouse.Api
                 c.AddFluentValidationRules();
             });
 
+            services.RegisterHangFireServices(this.Configuration);
+
             services.AddSwaggerGenNewtonsoftSupport();
 
-            services.RegisterHouseServices(this.Configuration);
+            services.RegisterHouseServices(this.Configuration, this.environment);
 
             services.RegisterAuthenticationServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
 
@@ -93,12 +98,15 @@ namespace DoctorHouse.Api
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            app.AddHangFire(this.Configuration);
         }
     }
 }

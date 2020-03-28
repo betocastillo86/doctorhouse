@@ -1,4 +1,5 @@
 ﻿using System;
+using DoctorHouse.Data.Enums;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DoctorHouse.Data.Migrations
