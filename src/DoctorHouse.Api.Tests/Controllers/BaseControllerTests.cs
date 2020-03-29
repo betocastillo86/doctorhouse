@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Beto.Core.Helpers;
 using Beto.Core.Web.Api;
 using DoctorHouse.Api.Models;
 using DoctorHouse.Api.Tests.Models;
@@ -134,27 +135,32 @@ namespace DoctorHouse.Api.Tests.Controllers
             return await this.client.DeleteAsync(requestUri);
         }
 
-        protected void AssertBadRequest(HttpResponseMessage result)
+        protected void Assert400(HttpResponseMessage result)
         {
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
-        protected void AssertOk(HttpResponseMessage result)
+        protected void Assert200(HttpResponseMessage result)
         {
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
-        protected void AssertCreated(HttpResponseMessage result)
+        protected void Assert201(HttpResponseMessage result)
         {
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Created));
         }
 
-        protected void AssertUnathorized(HttpResponseMessage result)
+        protected void Assert401(HttpResponseMessage result)
         {
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
         }
 
-        protected void AssertForbidden(HttpResponseMessage result)
+        protected void Assert404(HttpResponseMessage result)
+        {
+            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        }
+
+        protected void Assert403(HttpResponseMessage result)
         {
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
         }
@@ -167,6 +173,55 @@ namespace DoctorHouse.Api.Tests.Controllers
         protected void AssertErrorCode(BaseApiErrorModel error, string errorCode)
         {
             Assert.AreEqual(error.Error.Code, errorCode);
+        }
+
+        protected async Task<UserModel> InsertUserAsync(string email = null, bool authenticate = false)
+        {
+            var model = new NewUserModel { Name = "name", Email = email ?? this.GetRandomEmail(), Password = "123456", LocationId = 1 };
+
+            var response = await this.PostAsync<BaseModel>("/api/v1/users", model);
+
+            var user = new UserModel
+            {
+                Id = response.Content.Id,
+                Name = model.Name,
+                Email = model.Email,
+                Location = new LocationModel { Id = model.LocationId }
+            };
+
+            if (authenticate)
+            {
+                await this.AuthenticateClient(model.Email);
+            }
+
+            return user;
+        }
+
+        protected async Task<PlaceModel> InsertPlaceAsync(bool defaultAuthentication = true)
+        {
+            var place = new PlaceModel
+            { 
+                Address = "address",
+                Description = "description",
+                Latitude = 1,
+                Longitude = 1,
+                Phone = "123456",
+                Location = new LocationModel { Id = 1 },
+                GuestsAllowed = 1
+            };
+
+            var response = await this.PostAsync<PlaceModel>(
+                "/api/v1/places", 
+                place, 
+                defaultAuthentication: defaultAuthentication, 
+                removeAuthentication: !defaultAuthentication);
+
+            return response.Content;
+        }
+
+        protected string GetRandomEmail()
+        {
+            return $"{StringHelpers.GetRandomStringNoSpecialCharacters()}@{StringHelpers.GetRandomStringNoSpecialCharacters()}.com";
         }
     }
 }

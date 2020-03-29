@@ -16,7 +16,7 @@ namespace DoctorHouse.Api.Models
 
         public string Description { get; set; }
 
-        public byte? GuestAllowed { get; set; }
+        public byte? GuestsAllowed { get; set; }
 
         public bool Bathroom { get; set; }
 

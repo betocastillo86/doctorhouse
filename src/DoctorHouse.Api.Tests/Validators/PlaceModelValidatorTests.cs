@@ -33,7 +33,7 @@ namespace DoctorHouse.Api.Tests.Validators
             result.ShouldHaveValidationErrorFor("Address");
             result.ShouldHaveValidationErrorFor("Phone");
             result.ShouldHaveValidationErrorFor("Description");
-            result.ShouldHaveValidationErrorFor("GuestAllowed");
+            result.ShouldHaveValidationErrorFor("GuestsAllowed");
             result.ShouldHaveValidationErrorFor("Location");
         }
 
@@ -66,11 +66,11 @@ namespace DoctorHouse.Api.Tests.Validators
         [TestCase(21)]
         public void Validate_InvalidGuests_ShouldFail(byte guests)
         {
-            this.model.GuestAllowed = guests;
+            this.model.GuestsAllowed = guests;
 
             var result = this.validator.TestValidate(this.model);
 
-            result.ShouldHaveValidationErrorFor("GuestAllowed");
+            result.ShouldHaveValidationErrorFor("GuestsAllowed");
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace DoctorHouse.Api.Tests.Validators
             this.model.Description = "desc";
             this.model.Phone = "123";
             this.model.Address = "address";
-            this.model.GuestAllowed = 1;
+            this.model.GuestsAllowed = 1;
             this.model.Location = new LocationModel { Id = 1 };
 
             var result = this.validator.TestValidate(this.model);

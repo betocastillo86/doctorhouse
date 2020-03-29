@@ -80,7 +80,7 @@ namespace DoctorHouse.Api.Controllers
                 Address = model.Address,
                 Phone = model.Phone,
                 Description = model.Description,
-                GuestsAllowed = model.GuestAllowed.Value,
+                GuestsAllowed = model.GuestsAllowed.Value,
                 Bathroom = model.Bathroom,
                 Food = model.Food,
                 Kitchen = model.Kitchen,
@@ -127,7 +127,7 @@ namespace DoctorHouse.Api.Controllers
             place.Address = model.Address;
             place.Phone = model.Phone;
             place.Description = model.Description;
-            place.GuestsAllowed = model.GuestAllowed.Value;
+            place.GuestsAllowed = model.GuestsAllowed.Value;
             place.Bathroom = model.Bathroom;
             place.Food = model.Food;
             place.Kitchen = model.Kitchen;

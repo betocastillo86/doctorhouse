@@ -44,6 +44,7 @@ namespace DoctorHouse.Api.Tests
         {
             this.SeedUsers(context);
             this.SeedLocations(context);
+            this.SeedPlaces(context);
         }
 
         private void SeedUsers(DoctorHouseContext context)
@@ -70,10 +71,35 @@ namespace DoctorHouse.Api.Tests
         {
             var locations = new List<Location>()
             {
-                new Location { Name = "Colombia" }
+                new Location { Name = "Colombia" },
+                new Location { Name = "Argentina" }
             };
 
             context.AddRange(locations);
+
+            context.SaveChanges();
+        }
+
+        private void SeedPlaces(DoctorHouseContext context)
+        {
+            var places = new List<Place>()
+            {
+                new Place
+                {
+                    Active = true,
+                    Address = "address",
+                    CreationDate = DateTime.UtcNow,
+                    Description = "description",
+                    GuestsAllowed = 1,
+                    Latitude = 1,
+                    Longitude = 1,
+                    UserId = 1,
+                    LocationId = 1,
+                    Phone = "123456"
+                }
+            };
+
+            context.AddRange(places);
 
             context.SaveChanges();
         }
