@@ -31,7 +31,7 @@ namespace DoctorHouse.Api.Models
                 .NotEmpty()
                 .MaximumLength(4000);
 
-            this.RuleFor(c => c.GuestAllowed)
+            this.RuleFor(c => c.GuestsAllowed)
                 .NotNull()
                 .GreaterThan((byte)0)
                 .LessThan((byte)20);
