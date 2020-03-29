@@ -57,7 +57,7 @@ This is the list of endpoints:
    - ✔️ GET by ID
    - ✔️ POST
    - ✔️ PUT
-   - ❌ DELETE
+   - ✔️ DELETE
 - Requests (In Progress)
    - ✔️ GET
    - ✔️ GET by ID
