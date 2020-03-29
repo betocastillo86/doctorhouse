@@ -9,31 +9,37 @@ using Microsoft.Extensions.Configuration;
 
 namespace DoctorHouse.Business.Subscribers
 {
-    public class NotificationsSubscriber : ISubscriber<EntityInsertedMessage<User>>
+    public class NotificationsSubscriber : ISubscriber<EntityInsertedMessage<Request>>
     {
         private readonly INotificationService notificationService;
 
         private readonly IConfiguration configuration;
 
+        private readonly IWebCacheService webCacheService;
+
         public NotificationsSubscriber(
             INotificationService notificationService,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IWebCacheService webCacheService)
         {
             this.notificationService = notificationService;
             this.configuration = configuration;
+            this.webCacheService = webCacheService;
         }
 
-        public async Task HandleEvent(EntityInsertedMessage<User> message)
+        public async Task HandleEvent(EntityInsertedMessage<Request> message)
         {
-            var user = message.Entity; // TODO: Change only when request insertion
+            var request = message.Entity;
 
             var url = $"{this.configuration["SiteUrl"]}/requests";
 
-            var parameters = new List<NotificationParameter>();
-            parameters.Add("UserRequester.Name", user.Name);
-            parameters.Add("UserRequester.PhoneNumber", user.PhoneNumber);
+            var requester = this.webCacheService.GetUserById(request.UserRequesterId);
 
-            await this.notificationService.NewNotification(user, null, NotificationType.NewRequest, url, parameters);
+            var parameters = new List<NotificationParameter>();
+            parameters.Add("UserRequester.Name", requester.Name);
+            parameters.Add("UserRequester.PhoneNumber", requester.PhoneNumber);
+
+            await this.notificationService.NewNotification(requester, null, NotificationType.NewRequest, url, parameters);
         }
     }
 }
