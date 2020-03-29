@@ -62,6 +62,7 @@ namespace DoctorHouse.Business.Services
         {
             try
             {
+                request.Status = StatusType.New;
                 await this.requestRepository.InsertAsync(request);
             }
             catch (DbUpdateException e)
@@ -92,16 +93,9 @@ namespace DoctorHouse.Business.Services
 
         public async Task UpdateAsync(int id, Request request)
         {
-            var dbRequest = GetRequest(id);
-            if(dbRequest == null){
-                throw new DoctorHouseException(DoctorHouseExceptionCode.BadArgument);
-            }
-            
-            dbRequest.Description = request.Description;
-            dbRequest.StatusId = request.StatusId;
             try
             {
-                await this.requestRepository.UpdateAsync(dbRequest);
+                await this.requestRepository.UpdateAsync(request);
             }
             catch (DbUpdateException e)
             {
@@ -131,8 +125,7 @@ namespace DoctorHouse.Business.Services
                 }
             }
 
-            await this.publisher.EntityUpdated(dbRequest);
-
+            await this.publisher.EntityUpdated(request);
         }
 
         public async Task DeleteAsync(int id)
@@ -163,7 +156,35 @@ namespace DoctorHouse.Business.Services
 
         private Request GetRequest(int id)
         {
-            return this.requestRepository.TableNoTracking.Where(c => c.Id == id).FirstOrDefault();
+            return this.requestRepository.TableNoTracking
+                .Include(c => c.Place)
+                .Where(c => c.Id == id)
+                .FirstOrDefault();
+        }
+
+        public IPagedList<Request> GetAll(
+            int? requesterId = null, 
+            int? ownerId = null, 
+            int page = 0, 
+            int pageSize = int.MaxValue)
+        {
+            var query = this.requestRepository.TableNoTracking
+                .Where(w => !w.Deleted)
+                .Include(p => p.Place)
+                .Include(c => c.Place.User)
+                .AsQueryable();
+
+            if (requesterId.HasValue)
+            {
+                query = query.Where(c => c.UserRequesterId == requesterId);
+            }
+
+            if (ownerId.HasValue)
+            {
+                query = query.Where(c => c.Place.UserId == ownerId);
+            }
+
+            return new PagedList<Request>(query, page, pageSize); ;
         }
     }
 }

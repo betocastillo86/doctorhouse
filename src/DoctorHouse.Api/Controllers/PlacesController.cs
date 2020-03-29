@@ -145,7 +145,7 @@ namespace DoctorHouse.Api.Controllers
             return this.Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
             var place = this.placeService.GetById(id);

@@ -4,7 +4,6 @@ using AutoMapper;
 using Beto.Core.Exceptions;
 using Beto.Core.Web.Api.Controllers;
 using Beto.Core.Web.Api.Filters;
-using DoctorHouse.Api.Extensions;
 using DoctorHouse.Api.Models;
 using DoctorHouse.Business.Exceptions;
 using DoctorHouse.Business.Security;
@@ -40,17 +39,17 @@ namespace DoctorHouse.Api.Controllers
         [HttpGet("get-all-by-requesterid")]
         public IActionResult GetAllRequestsByRequesterId([FromQuery] RequestFilterModel filter)
         {
-            if (!filter.UserRequesterId.HasValue)
+            if (filter.UserId != this.workContext.CurrentUserId)
             {
-                return BadRequest();
+                return this.Forbid();
             }
 
             var requests = this.requestService.GetAllByRequesterId(
-                requesterId: filter.UserRequesterId.Value, //this.context.CurrentUserId,
+                requesterId: filter.UserId.Value,
                 page: filter.Page,
                 pageSize: filter.PageSize);
 
-            var models = this.mapper.Map<IList<PlaceModel>>(requests);
+            var models = this.mapper.Map<IList<RequestModel>>(requests);
 
             return this.Ok(models, requests.HasNextPage, requests.TotalCount);
         }
@@ -59,23 +58,23 @@ namespace DoctorHouse.Api.Controllers
         [HttpGet("get-all-by-ownerid")]
         public IActionResult GetAllRequestsByOwnerId([FromQuery] RequestFilterModel filter)
         {
-            if (!filter.UserOwnerId.HasValue)
+            if (filter.UserId != this.workContext.CurrentUserId)
             {
-                return BadRequest();
+                return this.Forbid();
             }
 
             var requests = this.requestService.GetAllByOwnerId(
-                ownerId: filter.UserOwnerId.Value,//this.context.CurrentUserId,
+                ownerId: filter.UserId.Value,
                 page: filter.Page,
                 pageSize: filter.PageSize);
 
-            var models = this.mapper.Map<IList<PlaceModel>>(requests);
+            var models = this.mapper.Map<IList<RequestModel>>(requests);
 
             return this.Ok(models, requests.HasNextPage, requests.TotalCount);
         }
 
+        [HttpGet("{id:int}")]
         [Produces("application/json")]
-        [HttpGet("id")]
         public IActionResult GetRequestById(int id)
         {
             var request = this.requestService.GetById(id);
@@ -83,6 +82,11 @@ namespace DoctorHouse.Api.Controllers
             if (request == null)
             {
                 return this.NotFound();
+            }
+
+            if (request.UserRequesterId != this.workContext.CurrentUserId && request.Place.UserId != this.workContext.CurrentUserId)
+            {
+                return this.Forbid();
             }
 
             var model = this.mapper.Map<RequestModel>(request);
@@ -95,15 +99,21 @@ namespace DoctorHouse.Api.Controllers
         [RequiredModel]
         public async Task<IActionResult> PostAsync([FromBody] SaveRequestModel model)
         {
-            var request = this.mapper.Map<SaveRequestModel, Request>(model);
-            request.UserRequesterId = this.workContext.CurrentUserId;
+            var request = new Request
+            {
+                GuestType = model.GuestTypeId.Value,
+                PlaceId = model.PlaceId,
+                UserRequesterId = this.workContext.CurrentUserId,
+                StartDate = model.StartDate.Value,
+                EndDate = model.EndDate.Value
+            };
 
             try
             {
                 await this.requestService.InsertAsync(request);
-                var requestModel = this.mapper.Map<Request, SaveRequestModel>(this.requestService.GetById(request.Id));
+                var requestModel = this.mapper.Map<Request, RequestModel>(this.requestService.GetById(request.Id));
 
-                return this.Ok(requestModel);
+                return this.CreatedAtAction(nameof(GetRequestById), requestModel, requestModel);
             }
             catch (DoctorHouseException ex)
             {
@@ -112,11 +122,27 @@ namespace DoctorHouse.Api.Controllers
         }
 
         [Produces("application/json")]
-        [HttpPut]
+        [HttpPut("{id:int}")]
         [RequiredModel]
         public async Task<IActionResult> Put(int id, [FromBody] SaveRequestModel model)
         {
-            var request = this.mapper.Map<SaveRequestModel, Request>(model);
+            var request = this.requestService.GetById(id);
+
+            if (request == null)
+            {
+                return this.NotFound();
+            }
+
+            if (request.UserRequesterId != this.workContext.CurrentUserId)
+            {
+                return this.Forbid();
+            }
+
+            request.Description = model.Description;
+            request.GuestType = model.GuestTypeId.Value;
+            request.StartDate = model.StartDate.Value;
+            request.EndDate = model.EndDate.Value;
+
             try
             {
                 await this.requestService.UpdateAsync(id, request);
@@ -129,7 +155,7 @@ namespace DoctorHouse.Api.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             try

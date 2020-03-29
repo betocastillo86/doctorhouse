@@ -45,6 +45,8 @@ namespace DoctorHouse.Api.Tests
             this.SeedUsers(context);
             this.SeedLocations(context);
             this.SeedPlaces(context);
+            this.SeedRequests(context);
+            this.SeedNotifications(context);
         }
 
         private void SeedUsers(DoctorHouseContext context)
@@ -100,6 +102,51 @@ namespace DoctorHouse.Api.Tests
             };
 
             context.AddRange(places);
+
+            context.SaveChanges();
+        }
+
+        private void SeedRequests(DoctorHouseContext context)
+        {
+            var requests = new List<Request>()
+            {
+                new Request
+                {
+                    CreationDate = DateTime.UtcNow,
+                    Deleted = false,
+                    Description = "description",
+                    EndDate = DateTime.UtcNow,
+                    GuestType = GuestType.MedicalStaff,
+                    PlaceId = 1,
+                    StartDate = DateTime.UtcNow,
+                    Status = StatusType.Approved,
+                    UserRequesterId = 1
+                }
+            };
+
+            context.AddRange(requests);
+
+            context.SaveChanges();
+        }
+
+        private void SeedNotifications(DoctorHouseContext context)
+        {
+            var notifications = new List<Notification>();
+            foreach (var notification in Enum.GetValues(typeof(NotificationType)))
+            {
+                var type = (NotificationType)notification;
+                notifications.Add(new Notification
+                {
+                    Id = Convert.ToInt32(type),
+                    Name = type.ToString(),
+                    EmailHtml = type.ToString(),
+                    EmailSubject = type.ToString(),
+                    IsEmail = true,
+                    Active = true
+                });
+            }
+
+            context.AddRange(notifications);
 
             context.SaveChanges();
         }

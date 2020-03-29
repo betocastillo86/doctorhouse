@@ -12,9 +12,7 @@ namespace DoctorHouse.Api.Models
             this.MaxPageSize = 20;
         }
 
-        public int? UserOwnerId { get; set; }
-
-        public int? UserRequesterId { get; set; }
+        public int? UserId { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public StatusType? Status { get; set; }
