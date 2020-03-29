@@ -148,5 +148,18 @@ namespace DoctorHouse.Business.Services
                 }
             }
         }
+
+        public async Task DeleteAsync(Place place)
+        {
+            place.Deleted = true;
+            try
+            {
+                await this.placeRepository.DeleteAsync(place);
+            }
+            catch (DbUpdateException e)
+            {
+                throw new DoctorHouseException(e.ToString());
+            }
+        }
     }
 }
