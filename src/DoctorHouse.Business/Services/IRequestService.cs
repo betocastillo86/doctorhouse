@@ -6,14 +6,22 @@ namespace DoctorHouse.Business.Services
 {
     public interface IRequestService
     {
+        IPagedList<Request> GetAll(
+            int? requesterId = null,
+            int? ownerId = null,
+            int page = 0,
+            int pageSize = int.MaxValue);
+
         IPagedList<Request> GetAllByRequesterId(
             int requesterId,
             int page = 0,
             int pageSize = int.MaxValue);
+
         IPagedList<Request> GetAllByOwnerId(
             int ownerId,
             int page = 0,
             int pageSize = int.MaxValue);
+
         Request GetById (int id);
 
         Task InsertAsync(Request request);

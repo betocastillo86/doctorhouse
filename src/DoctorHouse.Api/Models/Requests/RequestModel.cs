@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using DoctorHouse.Data;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Newtonsoft.Json.Converters;
 
 namespace DoctorHouse.Api.Models
 {
@@ -15,12 +19,16 @@ namespace DoctorHouse.Api.Models
 
         public string Description { get; set; }
 
-        public byte GuestTypeId { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public GuestType GuestType { get; set; }
 
-        public byte StatusId { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public StatusType Status { get; set; }
 
         public DateTime CreationDate { get; set; }
+
         public DateTime StartDate { get; set; }
+
         public DateTime EndDate { get; set; }
 
         public PlaceModel Place { get; set; }

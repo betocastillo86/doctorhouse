@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,6 +10,7 @@ using Beto.Core.Helpers;
 using Beto.Core.Web.Api;
 using DoctorHouse.Api.Models;
 using DoctorHouse.Api.Tests.Models;
+using DoctorHouse.Data;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -20,6 +22,8 @@ namespace DoctorHouse.Api.Tests.Controllers
 
         protected HttpClient client;
 
+        protected string currentEmailAuthenticated = string.Empty;
+
         [OneTimeSetUp]
         public void InitiateServer()
         {
@@ -29,8 +33,10 @@ namespace DoctorHouse.Api.Tests.Controllers
 
         public async Task AuthenticateClient(string email = null, string password = null)
         {
+            email = email ?? "test@test.com";
+
             var nvc = new List<KeyValuePair<string, string>>();
-            nvc.Add(new KeyValuePair<string, string>("username", email ?? "test@test.com"));
+            nvc.Add(new KeyValuePair<string, string>("username", email));
             nvc.Add(new KeyValuePair<string, string>("password", password ?? "123456"));
             nvc.Add(new KeyValuePair<string, string>("grant_type", "password"));
             var req = new HttpRequestMessage(HttpMethod.Post, $"/api/v1/auth") { Content = new FormUrlEncodedContent(nvc) };
@@ -38,6 +44,7 @@ namespace DoctorHouse.Api.Tests.Controllers
 
             var result = await this.GetResponseContent<AuthResponseModel>(authResponse);
 
+            this.currentEmailAuthenticated = email;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
         }
 
@@ -210,13 +217,47 @@ namespace DoctorHouse.Api.Tests.Controllers
                 GuestsAllowed = 1
             };
 
-            var response = await this.PostAsync<PlaceModel>(
+            var response = await this.PostAsync<BaseModel>(
                 "/api/v1/places", 
                 place, 
                 defaultAuthentication: defaultAuthentication, 
-                removeAuthentication: !defaultAuthentication);
+                removeAuthentication: false);
 
-            return response.Content;
+            place.Id = response.Content.Id;
+
+            return place;
+        }
+
+        protected async Task<RequestModel> InsertRequestAsync(int? place = null, bool defaultAuthentication = true)
+        {
+            var saveRequest = new SaveRequestModel
+            {
+                Description = "description",
+                GuestTypeId = GuestType.MedicalStaff,
+                PlaceId = place ?? 1,
+                StartDate = DateTime.UtcNow.AddMinutes(1),
+                EndDate = DateTime.UtcNow.AddMinutes(2)
+            };
+
+            var response = await this.PostAsync<BaseModel>(
+                "/api/v1/requests",
+                saveRequest,
+                defaultAuthentication: defaultAuthentication,
+                removeAuthentication: false);
+
+            var request = new RequestModel
+            { 
+                Id = response.Content.Id,
+                Description = saveRequest.Description,
+                GuestType = saveRequest.GuestTypeId.Value,
+                PlaceId = saveRequest.PlaceId,
+                StartDate = saveRequest.StartDate.Value,
+                EndDate = saveRequest.EndDate.Value
+            };
+
+            request.Id = response.Content.Id;
+
+            return request;
         }
 
         protected string GetRandomEmail()
