@@ -32,7 +32,8 @@ namespace DoctorHouse.Api
                 c.Filters.Add(new FluentValidatorAttribute());
             })
                 .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>())
-                .AddNewtonsoftJson(c => {
+                .AddNewtonsoftJson(c =>
+                {
                     c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
                 });
 
@@ -77,6 +78,16 @@ namespace DoctorHouse.Api
             services.RegisterHouseServices(this.Configuration, this.environment);
 
             services.RegisterAuthenticationServices();
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.WithOrigins(this.Configuration["EnableCorsOrigins"].Split(','));
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,6 +107,8 @@ namespace DoctorHouse.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthentication();
 
