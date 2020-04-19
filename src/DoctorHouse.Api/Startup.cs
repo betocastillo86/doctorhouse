@@ -108,7 +108,7 @@ namespace DoctorHouse.Api
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
 
