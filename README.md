@@ -49,6 +49,7 @@ This is the list of endpoints:
 
 - Users
    - ✔️ Authentication
+   - ✔️ GET Current User
    - ✔️ GET by ID
    - ✔️ POST
    - ✔️ PUT
@@ -76,11 +77,11 @@ This is the list of endpoints:
 # Other features
 
 - ✔️ Notification System
-   - ❌ Notify new request
-   - ❌ Notify request approved / rejected
-- ❌ Unit testing
+   - ✔️ Notify new request
+   - ✔️ Notify request approved / rejected
+- ✔️ Unit testing
 - ❌ https://github.com/betocastillo86/doctorhouse.web
-- ❌ Seeding full list of countries and cities
+- ✔️ Seeding full list of countries and cities
 - ✔️ CD / CI
 
 # Contributors
