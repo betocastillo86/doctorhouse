@@ -67,7 +67,7 @@ namespace DoctorHouse.Data.Migrations
                     "Address",
                     "Phone",
                     "Description",
-                    "GuestAllowed",
+                    "GuestsAllowed",
                     "Bathroom",
                     "Food",
                     "Kitchen",
