@@ -63,7 +63,7 @@ namespace DoctorHouse.Data.Migrations
                new string[]
                {
                     "Latitude",
-                    "Logitude",
+                    "Longitude",
                     "Address",
                     "Phone",
                     "Description",

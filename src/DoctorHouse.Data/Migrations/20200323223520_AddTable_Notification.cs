@@ -7,6 +7,21 @@ namespace DoctorHouse.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.InsertPlace(
+                new Place
+                {
+                    Description = "the place",
+                    CreationDate = DateTime.UtcNow,
+                    AvailableFrom = DateTime.UtcNow,
+                    AvailableTo = DateTime.UtcNow,
+                    GuestsAllowed = 2,
+                    Phone = "366666",
+                    Address = "Cr 10 10 10",
+                    LocationId = 1,
+                    UserId = 1,
+                    Active = true
+                });
+
             migrationBuilder.AddColumn<Guid>(
                 name: "DeviceId",
                 table: "Users",
