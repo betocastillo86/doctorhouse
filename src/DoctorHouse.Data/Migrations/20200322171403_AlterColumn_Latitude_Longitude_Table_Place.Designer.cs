@@ -138,13 +138,13 @@ namespace DoctorHouse.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Latitude")
-                        .HasColumnType("Decimal(9,6)");
+                        .HasColumnType("decimal(10,8)");
 
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Longitude")
-                        .HasColumnType("Decimal(9,6)");
+                        .HasColumnType("decimal(10,8)");
 
                     b.Property<bool>("Parking")
                         .HasColumnType("bit");

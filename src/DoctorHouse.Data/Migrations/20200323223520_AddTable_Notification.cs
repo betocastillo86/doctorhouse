@@ -35,18 +35,18 @@ namespace DoctorHouse.Data.Migrations
             migrationBuilder.AlterColumn<decimal>(
                 name: "Longitude",
                 table: "Places",
-                type: "decimal",
+                type: "decimal(10,8)",
                 nullable: false,
                 oldClrType: typeof(decimal),
-                oldType: "Decimal(9,6)");
+                oldType: "Decimal(10,8)");
 
             migrationBuilder.AlterColumn<decimal>(
                 name: "Latitude",
                 table: "Places",
-                type: "decimal",
+                type: "decimal(10,8)",
                 nullable: false,
                 oldClrType: typeof(decimal),
-                oldType: "Decimal(9,6)");
+                oldType: "decimal(10,8)");
 
             migrationBuilder.CreateTable(
                 name: "EmailNotifications",
@@ -145,18 +145,18 @@ namespace DoctorHouse.Data.Migrations
             migrationBuilder.AlterColumn<decimal>(
                 name: "Longitude",
                 table: "Places",
-                type: "Decimal(9,6)",
+                type: "decimal(10,8)",
                 nullable: false,
                 oldClrType: typeof(decimal),
-                oldType: "decimal");
+                oldType: "decimal(10,8)");
 
             migrationBuilder.AlterColumn<decimal>(
                 name: "Latitude",
                 table: "Places",
-                type: "Decimal(9,6)",
+                type: "decimal(10,8)",
                 nullable: false,
                 oldClrType: typeof(decimal),
-                oldType: "decimal");
+                oldType: "decimal(10,8)");
         }
     }
 }

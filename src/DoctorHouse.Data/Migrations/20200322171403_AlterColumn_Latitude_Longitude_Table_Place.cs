@@ -18,7 +18,7 @@ namespace DoctorHouse.Data.Migrations
             migrationBuilder.AlterColumn<decimal>(
                 name: "Latitude",
                 table: "Places",
-                type: "Decimal(9,6)",
+                type: "decimal(10,8)",
                 nullable: false,
                 oldClrType: typeof(long),
                 oldType: "bigint");
@@ -46,7 +46,7 @@ namespace DoctorHouse.Data.Migrations
             migrationBuilder.AddColumn<decimal>(
                 name: "Longitude",
                 table: "Places",
-                type: "Decimal(9,6)",
+                type: "decimal(10,8)",
                 nullable: false,
                 defaultValue: 0m);
         }

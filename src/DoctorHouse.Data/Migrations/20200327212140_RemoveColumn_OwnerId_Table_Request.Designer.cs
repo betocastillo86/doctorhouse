@@ -243,13 +243,13 @@ namespace DoctorHouse.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Latitude")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(10,8)");
 
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Longitude")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(10,8)");
 
                     b.Property<bool>("Parking")
                         .HasColumnType("bit");
