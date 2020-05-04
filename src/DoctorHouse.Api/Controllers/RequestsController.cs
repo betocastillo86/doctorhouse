@@ -105,7 +105,8 @@ namespace DoctorHouse.Api.Controllers
                 PlaceId = model.PlaceId,
                 UserRequesterId = this.workContext.CurrentUserId,
                 StartDate = model.StartDate.Value,
-                EndDate = model.EndDate.Value
+                EndDate = model.EndDate.Value,
+                Description = model.Description
             };
 
             try
